@@ -1,6 +1,7 @@
 from django.contrib import admin
 from django.forms import ModelForm
 from django.contrib import messages
+from django.core.urlresolvers import reverse_lazy
 
 from nomenclature.models import ArticleGroup
 from order.models import *
@@ -11,7 +12,7 @@ from clever_select_enhanced.clever_txt_field import ChainedNumberInputField
 class OrderDetailForm(ChainedChoicesModelForm):
 
     price = ChainedNumberInputField(parent_field='article_fk', ajax_url=reverse_lazy('article_ajax_chained_order_models'),
-                                    label=u'Цена', required=True )
+                                    label=u'Цена', required=True)
 
     class Meta:
         model = OrderDetail

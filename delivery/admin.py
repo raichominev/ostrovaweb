@@ -7,7 +7,7 @@ from django.forms import ModelForm
 from reversion_compare.admin import CompareVersionAdmin
 
 from cashdesk.models import Cashdesk, Cashdesk_detail_expense
-from clever_select_enhanced import ChainedChoicesModelForm
+from clever_select_enhanced.forms import ChainedChoicesModelForm
 from delivery.models import *
 from nomenclature.models import Cashdesk_groups_expense, ArticleGroup
 from store.models import stock_receipt_protocol, ArticleStore, stock_acceptance_detail
