@@ -4,6 +4,9 @@ from django.contrib import messages
 
 from nomenclature.models import ArticleGroup
 from order.models import *
+from clever_select_enhanced.forms import ChainedChoicesModelForm
+from clever_select_enhanced.clever_txt_field import ChainedNumberInputField
+
 
 class OrderDetailForm(ChainedChoicesModelForm):
 
@@ -20,6 +23,7 @@ class OrderDetailInline(admin.TabularInline):
     #    select_related = ('group', 'article')
 
     raw_id_fields = ( 'article_fk',)
+
 
 class OrderAdmin(DjangoObjectActions, CompareVersionAdmin):
 
