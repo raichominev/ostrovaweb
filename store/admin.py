@@ -1,6 +1,7 @@
 from django.contrib import admin
 from reversion_compare.admin import CompareVersionAdmin
 
+from store.models import *
 
 class ArticleStoreAdmin(CompareVersionAdmin):
     readonly_fields = ('id',)
