@@ -3,7 +3,7 @@
     "node": "latest"
   },
   "dependencies": {
-    "bower":"1.8.0"
+    "bower":"latest"
   },
   "scripts": {
     "postinstall": "bower install"
