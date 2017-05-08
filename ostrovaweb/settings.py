@@ -91,7 +91,7 @@ TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
         'DIRS': [
-            BASE_DIR + '/templates',
+            PROJECT_ROOT + '/templates',
             'templates'  # needed for debug mode only
         ],
         'APP_DIRS': False,
@@ -109,7 +109,7 @@ TEMPLATES = [
             'loaders': [
                 'django.template.loaders.app_directories.Loader',
                 'ostrovaweb.overridingLoader.Loader',
-#                'django.template.loaders.filesystem.Loader',
+                'django.template.loaders.filesystem.Loader',
                 #    'django.template.loaders.eggs.Loader',
             ]
         },
