@@ -6,6 +6,6 @@
     "bower":"latest"
   },
   "scripts": {
- //   "postinstall": "bower install"
+
   }
 }
