@@ -10,7 +10,7 @@ from ostrovaweb.utils import nvl
 class Delivery(models.Model):
     id = models.AutoField(primary_key=True, verbose_name="Номер")
     order_date = models.DateField(verbose_name="Дата на заявка", default=timezone.now)
-    supplier_fk = models.ForeignKey('Supplier', verbose_name="Доставчик")
+    supplier_fk = models.ForeignKey('nomenclature.Supplier', verbose_name="Доставчик")
     status = models.CharField(max_length=80, verbose_name="Статус", choices=(
         ('ORDERED', 'ПОРЪЧАНO'),
         ('DELIVERED', 'ДОСТАВЕНО'),
@@ -24,9 +24,9 @@ class Delivery(models.Model):
         ('НЕ', 'НЕ'),
         ('ДА', 'ДА'),
     ), default='НЕ')
-    cashdesk_fk = models.ForeignKey('Cashdesk', blank=True, null=True, verbose_name="Дата на плащане")
+    cashdesk_fk = models.ForeignKey('cashdesk.Cashdesk', blank=True, null=True, verbose_name="Дата на плащане")
     notes = models.TextField(max_length=2000, blank=True, null=True, verbose_name="Забележка")
-    club_fk = models.ForeignKey('Club', verbose_name="Клуб")
+    club_fk = models.ForeignKey('nomenclature.Club', verbose_name="Клуб")
     last_update_date = models.DateTimeField(blank=True, null=True, verbose_name="Дата на опресняване")
 
     # Computes dynamically total price of delivery, based on all detail models
