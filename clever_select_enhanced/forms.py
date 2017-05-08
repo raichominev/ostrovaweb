@@ -10,7 +10,7 @@ from django.core.validators import EMPTY_VALUES
 from django.db import models
 
 from clever_select_enhanced.form_fields import ChainedChoiceField, ChainedModelChoiceField
-from clever_select_enhanced import TestClient
+from clever_select_enhanced.testclient import TestClient
 
 
 class ChainedChoicesMixin(object):
