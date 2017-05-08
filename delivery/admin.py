@@ -11,7 +11,7 @@ from clever_select_enhanced.forms import ChainedChoicesModelForm
 from delivery.models import *
 from nomenclature.models import Cashdesk_groups_expense, ArticleGroup
 from store.models import stock_receipt_protocol, ArticleStore, stock_acceptance_detail
-
+from clever_select_enhanced.clever_txt_field import ChainedNumberInputField
 
 class DeliveryDetailForm(ChainedChoicesModelForm):
 
