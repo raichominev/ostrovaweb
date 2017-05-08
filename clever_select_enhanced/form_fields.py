@@ -3,7 +3,7 @@ from django.core.exceptions import ValidationError
 from django.forms import ChoiceField
 from django.forms.models import ModelChoiceField
 
-from clever_select_enhanced import ChainedSelect
+from clever_select_enhanced.widgets import ChainedSelect
 
 
 class ChainedChoiceField(ChoiceField):
