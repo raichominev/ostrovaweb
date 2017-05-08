@@ -25,7 +25,7 @@ class stock_acceptance_detail(models.Model):
     id = models.AutoField(primary_key=True, verbose_name="Номер")
     stock_protocol_fk = models.ForeignKey('store.Stock_receipt_protocol', verbose_name="Протокол")
     article_store_fk = models.ForeignKey('store.ArticleStore', blank=False, null=False, verbose_name="Артикул")
-    deliverydetail_fk = models.ForeignKey('oder.DeliveryDetail', blank=True, null=True, verbose_name="Доставено кол.")
+    deliverydetail_fk = models.ForeignKey('order.DeliveryDetail', blank=True, null=True, verbose_name="Доставено кол.")
     cnt = models.FloatField(verbose_name="Количество")
 
     class Meta:
