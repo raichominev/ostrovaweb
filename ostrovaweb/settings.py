@@ -256,8 +256,8 @@ TARTIMAGES_STORAGE = u'tartImages'
 TART_CUSTOM_REQESTS_FOLDER = u'ЗАЯВКИ'
 
 AWS_QUERYSTRING_AUTH = False
-AWS_ACCESS_KEY_ID = os.environ.get('AWS_ACCESS_KEY_ID',None)
-AWS_SECRET_ACCESS_KEY = os.environ.get('AWS_SECRET_ACCESS_KEY', None)
-AWS_STORAGE_BUCKET_NAME = os.environ.get('S3_BUCKET_NAME', None)
+AWS_ACCESS_KEY_ID = os.environ.get('BUCKETEER_AWS_ACCESS_KEY_ID',None)
+AWS_SECRET_ACCESS_KEY = os.environ.get('BUCKETEER_AWS_SECRET_ACCESS_KEY', None)
+AWS_STORAGE_BUCKET_NAME = os.environ.get('BUCKETEER_BUCKET_NAME', None)
 MEDIA_URL = 'http://%s.s3.amazonaws.com/upload/' % str(AWS_STORAGE_BUCKET_NAME)
 DEFAULT_FILE_STORAGE = "storages.backends.s3boto3.S3Boto3Storage"
