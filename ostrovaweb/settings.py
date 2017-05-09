@@ -122,8 +122,8 @@ SUIT_CONFIG = {
         { 'app': 'tartRequests',
             'label': 'Поръчки за торти',
             'models': (
-                {'url': '/fullcalendartarts', 'label': 'Календар Торти', },
-                'tortarequest',
+                #{'url': '/fullcalendartarts', 'label': 'Календар Торти', },
+                'tartrequests.tortarequest',
                 # 'tortapictureregister'
                 # 'tortarequestpicture',
                 # 'tortatasteregister',
