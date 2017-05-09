@@ -118,7 +118,7 @@ class TortaRequestPicture(BaseModel):
 class TortaPictureRegister(BaseModel):
 
     def upload_storage(self,name):
-        return settings.TARTIMAGES_STORAGE + "/" + self.category + "/" + name
+        return settings.TARTIMAGES_STORAGE + "/" + self.category.category + "/" + name
 
     filename = models.FileField(upload_to=upload_storage, max_length=200,  blank = True, null= True, verbose_name="Изображение")
     code = models.CharField(max_length=50, blank=True, verbose_name="Код")
@@ -178,3 +178,6 @@ class TortaPictureCategory(BaseModel):
         db_table = 'tart_category'
         verbose_name = u"Категория"
         verbose_name_plural = u"Категории"
+
+    def __str__(self):
+        return str(self.category)
