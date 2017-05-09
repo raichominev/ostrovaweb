@@ -171,7 +171,7 @@ class TortaPictureRegisterForm(ModelForm):
         # target_folder = settings.MEDIA_ROOT + "/" +
 
         directories = []
-        for categoty_folder in default_storage.listdir(settings.TARTIMAGES_STORAGE):
+        for categoty_folder in default_storage.listdir(settings.TARTIMAGES_STORAGE)[0]:
             #if os.path.isdir('/'.join((target_folder,categoty_folder,))):
                 directories.append((categoty_folder, categoty_folder),)
 

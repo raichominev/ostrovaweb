@@ -103,9 +103,9 @@ TEMPLATES = [
                 'django.core.context_processors.request',
             ],
             'loaders': [
-                'django.template.loaders.app_directories.Loader',
                 'ostrovaweb.overridingLoader.Loader',
                 'django.template.loaders.filesystem.Loader',
+                'django.template.loaders.app_directories.Loader',
                 #    'django.template.loaders.eggs.Loader',
             ]
         },
