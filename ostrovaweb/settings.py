@@ -18,15 +18,6 @@ import logging
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 PROJECT_ROOT = os.path.dirname(os.path.abspath(__file__))
 
-BOWER_COMPONENTS_ROOT = BASE_DIR + '/components/'
-
-BOWER_INSTALLED_APPS = (
-   'jquery',
-   'jquery-ui',
-   'bootstrap',
-   'fullcalendar',
-)
-
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/1.10/howto/deployment/checklist/
 
@@ -40,6 +31,7 @@ ALLOWED_HOSTS = ['192.168.6.132','127.0.0.1','localhost','testserver']
 
 INSTALLED_APPS = [
 
+    # Project applications
     'tartRequests',
     'order',
     'delivery',
@@ -48,6 +40,7 @@ INSTALLED_APPS = [
     'nomenclature',
 
     'suit',
+    'django_object_actions',
 
     'django.contrib.admin',
     'django.contrib.auth',
@@ -60,19 +53,21 @@ INSTALLED_APPS = [
     # Report builder
     'report_builder',
 
-    'django_object_actions',
-
     # Object history
     'reversion',
     'reversion_compare',
-
     'django_select2',
-
-    # 'jquery-ui',
-    # 'bootstrap',
     'djangobower',
 
 ]
+
+BOWER_COMPONENTS_ROOT = BASE_DIR + '/components/'
+BOWER_INSTALLED_APPS = (
+    'jquery',
+    'jquery-ui',
+    'bootstrap',
+    'fullcalendar',
+)
 
 MIDDLEWARE_CLASSES = [
     'django.middleware.security.SecurityMiddleware',
@@ -163,7 +158,6 @@ SUIT_CONFIG = {
 }
 
 # Database
-# https://docs.djangoproject.com/en/1.10/ref/settings/#databases
 
 # check for HEROKU presence (must MANUALLY add ON_HEROKU as a configuration variable)
 # if 'ON_HEROKU' in os.environ:
@@ -209,21 +203,13 @@ AUTH_PASSWORD_VALIDATORS = [
 
 
 # Internationalization
-# https://docs.djangoproject.com/en/1.10/topics/i18n/
-
 LANGUAGE_CODE = 'bg'
-
 TIME_ZONE = 'Europe/Sofia'
-
 USE_I18N = True
-
 USE_L10N = True
-
 USE_TZ = True
 
-
-# Static files (CSS, JavaScript, Images)
-# https://docs.djangoproject.com/en/1.10/howto/static-files/
+# Static Files
 
 STATICFILES_FINDERS = [
     'django.contrib.staticfiles.finders.FileSystemFinder',
@@ -232,9 +218,7 @@ STATICFILES_FINDERS = [
     # 'django.contrib.staticfiles.finders.DefaultStorageFinder',
 ]
 
-
 STATIC_ROOT = os.path.join(PROJECT_ROOT, 'staticfiles')
-
 STATIC_URL = '/static/'
 
 # Extra places for collectstatic to find static files.
@@ -242,8 +226,6 @@ STATICFILES_DIRS = (
     os.path.join(PROJECT_ROOT, 'static'),
 )
 
-# Simplified static file serving.
-# https://warehouse.python.org/project/whitenoise/
 STATICFILES_STORAGE = 'whitenoise.django.GzipManifestStaticFilesStorage'
 
 
@@ -265,3 +247,9 @@ STATICFILES_STORAGE = 'whitenoise.django.GzipManifestStaticFilesStorage'
 #         },
 #     },
 # }
+
+MEDIA_ROOT = BASE_DIR + '/upload'
+MEDIA_URL = '/upload/'
+
+TARTIMAGES_STORAGE = u'tartImages'
+TART_CUSTOM_REQESTS_FOLDER = u'ЗАЯВКИ'
