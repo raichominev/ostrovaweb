@@ -249,7 +249,7 @@ STATICFILES_STORAGE = 'whitenoise.django.GzipManifestStaticFilesStorage'
 #     },
 # }
 
-MEDIA_ROOT = BASE_DIR + '/upload'
+# MEDIA_ROOT = BASE_DIR + '/upload'
 # MEDIA_URL = '/upload/'
 
 TARTIMAGES_STORAGE = u'tartImages'
@@ -259,5 +259,5 @@ AWS_QUERYSTRING_AUTH = False
 AWS_ACCESS_KEY_ID = os.environ.get('BUCKETEER_AWS_ACCESS_KEY_ID',None)
 AWS_SECRET_ACCESS_KEY = os.environ.get('BUCKETEER_AWS_SECRET_ACCESS_KEY', None)
 AWS_STORAGE_BUCKET_NAME = os.environ.get('BUCKETEER_BUCKET_NAME', None)
-MEDIA_URL = 'http://%s.s3.amazonaws.com/upload/' % str(AWS_STORAGE_BUCKET_NAME)
+MEDIA_URL = 'http://%s.s3.amazonaws.com/' % str(AWS_STORAGE_BUCKET_NAME)
 DEFAULT_FILE_STORAGE = "storages.backends.s3boto3.S3Boto3Storage"
