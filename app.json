@@ -1,5 +1,20 @@
 {
+  "name": "Ostrova Web",
+  "description": "Ostrova Web",
+  "repository": "https://github.com/raichominev/ostrovaweb",
+  "keywords": ["python", "django"],
+  "scripts": {
+    "postdeploy": "python manage.py migrate --noinput"
+  },
+  "addons": [
+    "heroku-postgresql"
+  ],
+  "success_url": "/admin",
   "env": {
+    "SECRET_KEY": {
+      "description": "A randomly generated secret to secure your Django installation.",
+      "generator": "secret"
+    },
     "DISABLE_COLLECTSTATIC": {
       "description": "Don't run python manage.py collectstatic --noinput on deploy",
       "value": "1"
