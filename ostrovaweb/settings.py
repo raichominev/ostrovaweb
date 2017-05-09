@@ -120,8 +120,16 @@ SUIT_CONFIG = {
     'MENU_OPEN_FIRST_CHILD': True,
     'MENU': (
         { 'app': 'tartRequests',
-            'label': 'Поръчка торти',
-            'models': ( 'tartRequest', ),
+            'label': 'Поръчки за торти',
+            'models': (
+                {'url': '/fullcalendartarts', 'label': 'Календар Торти', },
+                'tortarequest',
+                'tortapictureregister'
+                'tortarequestpicture',
+                'tortatasteregister',
+                'tortapiececoding',
+                'tortapicturecategory',
+            ),
         },
 
         { 'app': 'order',
@@ -132,7 +140,7 @@ SUIT_CONFIG = {
         },
 
         {   'app': 'delivery',
-            'label': 'Доставка',
+            'label': 'Доставки',
             'models': ( 'delivery', ),
         },
 

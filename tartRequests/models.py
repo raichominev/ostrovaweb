@@ -136,8 +136,8 @@ class TortaPictureRegister(BaseModel):
     class Meta:
         managed = True
         db_table = 'tart_picture_register'
-        verbose_name = u"Регистър на торти"
-        verbose_name_plural = u"Регистър на торти"
+        verbose_name = u"Вид на торта"
+        verbose_name_plural = u"Видове торти"
 
     def __str__(self):
         return str(self.filename)
