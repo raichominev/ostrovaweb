@@ -34,7 +34,7 @@ class TortaRequest(BaseModel):
     reg_date = models.DateTimeField(db_column='REG_DATE', blank=False, null=False, verbose_name="Дата заявка", default=timezone.now)
     last_update_date = models.DateTimeField(db_column='LAST_UPDATE_DATE', blank=True, null=True, verbose_name="Дата промяна")
     user_fk = models.ForeignKey(User, to_field='id',db_column='USER_ID', verbose_name="Заявител")
-    club_fk = models.ForeignKey('nomenclature.Club', to_field='club_id',db_column='CLUB_ID', verbose_name="Клуб", default=1)
+    club_fk = models.ForeignKey('nomenclature.Club', verbose_name="Клуб", default=1)
 
     status = models.CharField(db_column='STATUS', max_length=50, blank=False, verbose_name="Статус", choices=(
         ('NEW','Нова'),

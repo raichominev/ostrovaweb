@@ -88,7 +88,7 @@ class Migration(migrations.Migration):
                 ('reg_date', models.DateTimeField(db_column='REG_DATE', default=datetime.datetime(2017, 5, 9, 2, 30, 47, 695522, tzinfo=utc), verbose_name='Дата заявка')),
                 ('last_update_date', models.DateTimeField(blank=True, db_column='LAST_UPDATE_DATE', null=True, verbose_name='Дата промяна')),
                 ('status', models.CharField(choices=[('NEW', 'Нова'), ('OPEN', 'Заявена'), ('DELIVERED', 'Доставена'), ('PAYED', 'Платена')], db_column='STATUS', default='NEW', max_length=50, verbose_name='Статус')),
-                ('club_fk', models.ForeignKey(db_column='CLUB_ID', default=1, on_delete=django.db.models.deletion.CASCADE, to='nomenclature.Club', to_field='club_id', verbose_name='Клуб')),
+                ('club_fk', models.ForeignKey(default=1, on_delete=django.db.models.deletion.CASCADE, to='nomenclature.Club', verbose_name='Клуб')),
                 ('user_fk', models.ForeignKey(db_column='USER_ID', on_delete=django.db.models.deletion.CASCADE, to=settings.AUTH_USER_MODEL, verbose_name='Заявител')),
             ],
             options={
