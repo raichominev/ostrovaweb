@@ -27,7 +27,7 @@ class ChainedSelectChoicesView(View):
 
     def get(self, request, *args, **kwargs):
         response = HttpResponse(
-            json.dumps(self.get_choices(), cls=DjangoJSONEncoder),
+            json.dumps(self.get_choices(request), cls=DjangoJSONEncoder),
             content_type='application/javascript'
         )
         add_never_cache_headers(response)
@@ -44,7 +44,7 @@ class ChainedSelectChoicesView(View):
     def get_child_set(self):
         return self.child_set
 
-    def get_choices(self):
+    def get_choices(self, request):
         choices = []
         if self.parent_value in EMPTY_VALUES + ('None', ) or self.get_child_set() is None:
             return []
