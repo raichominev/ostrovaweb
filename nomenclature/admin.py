@@ -101,8 +101,11 @@ class EmployeeAdmin(UserAdmin):
     inlines = (EmployeeInline, )
 
     def save_model(self, request, obj, form, change):
-        if not obj.employee:
-            obj.employee = Employee()
+        if not hasattr(obj, 'employee'):
+            emp = Employee()
+            emp.save()
+
+            obj.employee = emp
 
         super(EmployeeAdmin, self).save_model(request, obj, form, change)
 
