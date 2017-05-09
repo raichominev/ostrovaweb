@@ -155,10 +155,10 @@ SUIT_CONFIG = {
             'models': ( 'supplier', 'articlegroup', 'article', 'club', 'saloon', 'cashdesk_groups_income', 'cashdesk_groups_expense' ),
         },
 
-        {'label': 'Контрол на достъпа', 'models': (
-            'auth.user',
-            'auth.group',
-        )},
+        {   'app': 'auth',
+            'label': 'Контрол на достъпа',
+            'models': ( 'user', 'group',)
+        },
     )
 }
 
