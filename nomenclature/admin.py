@@ -105,7 +105,7 @@ class EmployeeAdmin(UserAdmin):
             obj.save()
 
             emp = Employee()
-            emp.user = obj()
+            emp.user = obj
             emp.save()
 
             obj.employee = emp
