@@ -14,15 +14,15 @@ from clever_select_enhanced.forms import ChainedChoicesModelForm
 from tartrequests.models import *
 
 
-# class TortaRequestInline(admin.StackedInline):
-#     model = TortaRequestPicture
-#     fieldsets = (
-#         ('', {
-#             'fields': ('filename',),
-#         }),
-#     )
-#     readonly_fields = ['last_update_date',]
-#     extra = 0
+class TortaRequestInline(admin.StackedInline):
+    model = TortaRequestPicture
+    fieldsets = (
+        ('', {
+            'fields': ('filename',),
+        }),
+    )
+    readonly_fields = ['last_update_date',]
+    extra = 0
 
 # class TortaRequestTasteForm(ChainedChoicesModelForm):
 #     torta_rq_fk = forms.CharField()
@@ -142,7 +142,7 @@ class TortaRequestAdmin(ModelAdmin):
     #     kwargs.setdefault('form', self.form)
     #     return super(TortaRequestAdmin, self).get_changelist_form(request, **kwargs)
 
-    #inlines = [ TortaRequestInline, ]
+    inlines = [ TortaRequestInline, ]
 
 
     def get_changeform_initial_data(self, request):

@@ -82,21 +82,21 @@ class TortaTasteRegister(models.Model):
         return self.palnej + ':' + str(self.level)
 
 
-# class TortaRequestPicture(models.Model):
-#
-#     torta_rq_fk = models.ForeignKey( to=TortaRequest, db_column='tart_id', to_field='id')
-#     filename = models.FileField(upload_to=settings.TARTIMAGES_STORAGE + "/" + settings.TART_CUSTOM_REQESTS_FOLDER, max_length=100,  blank = True, null= True, verbose_name="Изображение")
-#     last_update_date = models.DateTimeField(db_column='LAST_UPDATE_DATE', blank=True, null=True, verbose_name="Дата промяна",default=timezone.now)
-#
-#     class Meta:
-#         managed = False
-#         db_table = 'tart_req_pictures'
-#         verbose_name = u"Собствено изображение за торта"
-#         verbose_name_plural = u"Собствени изображения за торта"
-#
-#     def __str__(self):
-#         return str(self.filename)
-#
+class TortaRequestPicture(models.Model):
+
+    torta_rq_fk = models.ForeignKey( to=TortaRequest, db_column='tart_id', to_field='id')
+    filename = models.FileField(upload_to=settings.TARTIMAGES_STORAGE + "/" + settings.TART_CUSTOM_REQESTS_FOLDER, max_length=100,  blank = True, null= True, verbose_name="Изображение")
+    last_update_date = models.DateTimeField(db_column='LAST_UPDATE_DATE', blank=True, null=True, verbose_name="Дата промяна",default=timezone.now)
+
+    class Meta:
+        managed = True
+        db_table = 'tart_req_pictures'
+        verbose_name = u"Собствено изображение за торта"
+        verbose_name_plural = u"Собствени изображения за торта"
+
+    def __str__(self):
+        return str(self.filename)
+
 
 # class TortaRequestTaste(BaseModel):
 #
