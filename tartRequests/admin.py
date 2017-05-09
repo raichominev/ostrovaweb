@@ -169,7 +169,6 @@ class TortaPictureRegisterForm(ModelForm):
 
 
         # target_folder = settings.MEDIA_ROOT + "/" +
-        x = default_storage.bucket()
 
         directories = []
         for categoty_folder in default_storage.listdir(settings.TARTIMAGES_STORAGE):
