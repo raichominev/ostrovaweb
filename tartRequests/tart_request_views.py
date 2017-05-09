@@ -4,13 +4,13 @@ import logging
 
 from django.contrib import messages
 
-from ostrovaApp.clever_select_enhanced.views import ChainedSelectChoicesView
+from clever_select_enhanced.views import ChainedSelectChoicesView
 from django.core.serializers.json import DjangoJSONEncoder
 from django.http import HttpResponse
 from django.utils.cache import add_never_cache_headers
 from django.views.generic.detail import BaseDetailView
 
-from ostrovaApp.models import TortaPictureRegister, TortaPieceCoding, TortaRequest, TortaTasteRegister
+from tartRequests.models import TortaPictureRegister, TortaPieceCoding, TortaRequest, TortaTasteRegister
 
 symbols = (u"абвгдеёжзийклмнопрстуфхцчшщъыьэюяАБВГДЕЁЖЗИЙКЛМНОПРСТУФХЦЧШЩЪЫЬЭЮЯ",
            u"abvgdeejzijklmnoprstufhzcss_y_euaABVGDEEJZIJKLMNOPRSTUFHZCSS_Y_EUA")
@@ -43,7 +43,7 @@ class TartRequestAjaxChainedView(ChainedSelectChoicesView):
         vals_list = []
 
         logging.info("field:" + self.field)
-        logging.info(u"parent_value:" + unicode(self.parent_value))
+        logging.info(u"parent_value:" + str(self.parent_value))
 
         if self.field == 'tart_type':
             tortaDescr = get_tart_model(self.parent_value)

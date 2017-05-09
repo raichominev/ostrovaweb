@@ -86,6 +86,7 @@ class TortaRequestForm(ChainedChoicesModelForm):
 
     class Meta:
         model = TortaRequest
+        fields = '__all__'
         widgets = {
             #'tart_type': TextInput(attrs={'style':'width:80px'}),
             'code': TextInput(attrs={'style':'width:80px'}),
@@ -215,23 +216,23 @@ class TortaPictureRegisterAdmin(ModelAdmin):
 
 admin.site.register(TortaPictureRegister, TortaPictureRegisterAdmin)
 
-# class TortaTasteRegisterAdmin(ModelAdmin):
-#
-#     list_filter     = (
-#         'level','palnej'
-#     )
-#     list_display    = ('id', 'level','palnej','price')
-#     readonly_fields = ['last_update_date', ]
-#     list_editable   = ('palnej','level','price')
-#     ordering        = ['level', 'palnej']
-#     list_per_page = 50
-#     # exclude = []
-#
-#     def save_model(self, request, obj, form, change):
-#         obj.last_update_date = datetime.now().replace(microsecond=0)
-#         obj.save()
-#
-# admin.site.register(TortaTasteRegister, TortaTasteRegisterAdmin)
+class TortaTasteRegisterAdmin(ModelAdmin):
+
+    list_filter     = (
+        'level','palnej'
+    )
+    list_display    = ('id', 'level','palnej','price')
+    readonly_fields = ['last_update_date', ]
+    list_editable   = ('palnej','level','price')
+    ordering        = ['level', 'palnej']
+    list_per_page = 50
+    # exclude = []
+
+    def save_model(self, request, obj, form, change):
+        obj.last_update_date = datetime.now().replace(microsecond=0)
+        obj.save()
+
+admin.site.register(TortaTasteRegister, TortaTasteRegisterAdmin)
 
 
 class TortaPieceCodingAdmin(ModelAdmin):

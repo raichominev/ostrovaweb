@@ -58,6 +58,7 @@ INSTALLED_APPS = [
     'reversion_compare',
     'django_select2',
     'djangobower',
+    'storages'
 
 ]
 
@@ -249,7 +250,14 @@ STATICFILES_STORAGE = 'whitenoise.django.GzipManifestStaticFilesStorage'
 # }
 
 MEDIA_ROOT = BASE_DIR + '/upload'
-MEDIA_URL = '/upload/'
+# MEDIA_URL = '/upload/'
 
 TARTIMAGES_STORAGE = u'tartImages'
 TART_CUSTOM_REQESTS_FOLDER = u'ЗАЯВКИ'
+
+AWS_QUERYSTRING_AUTH = False
+AWS_ACCESS_KEY_ID = os.environ.get('AWS_ACCESS_KEY_ID',None)
+AWS_SECRET_ACCESS_KEY = os.environ.get('AWS_SECRET_ACCESS_KEY', None)
+AWS_STORAGE_BUCKET_NAME = os.environ.get('S3_BUCKET_NAME', None)
+MEDIA_URL = 'http://%s.s3.amazonaws.com/upload/' % str(AWS_STORAGE_BUCKET_NAME)
+DEFAULT_FILE_STORAGE = "storages.backends.s3boto.S3BotoStorage"

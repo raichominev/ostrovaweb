@@ -31,7 +31,7 @@ class TortaRequest(BaseModel):
     client_phone = models.CharField(db_column='CLIENT_PHONE', max_length=50, blank=True, verbose_name="Телефон")
 
     changes = models.TextField(db_column='CHANGES', max_length=3000, blank=True, verbose_name="История на промените")
-    reg_date = models.DateTimeField(db_column='REG_DATE', blank=False, null=False, verbose_name="Дата заявка", default=timezone.now())
+    reg_date = models.DateTimeField(db_column='REG_DATE', blank=False, null=False, verbose_name="Дата заявка", default=timezone.now)
     last_update_date = models.DateTimeField(db_column='LAST_UPDATE_DATE', blank=True, null=True, verbose_name="Дата промяна")
     user_fk = models.ForeignKey(User, to_field='id',db_column='USER_ID', verbose_name="Заявител")
     club_fk = models.ForeignKey('nomenclature.Club', to_field='club_id',db_column='CLUB_ID', verbose_name="Клуб", default=1)
@@ -64,29 +64,29 @@ class TortaRequest(BaseModel):
         return str(self.tart_type) + ':' + str(self.code) + ":" + str(self.tart_name)
 
 
-# class TortaTasteRegister(BaseModel):
-#
-#     palnej = models.CharField(max_length=50, blank=True, verbose_name="Пълнеж")
-#     level = models.IntegerField(blank=False, null=False, verbose_name="Етаж")
-#     price = models.FloatField(blank=False, null=True, verbose_name="Ед.Цена")
-#
-#     last_update_date = models.DateTimeField(db_column='LAST_UPDATE_DATE', blank=True, null=True, verbose_name="Дата промяна", default=timezone.now())
-#
-#     class Meta:
-#         managed = True
-#         db_table = 'tart_taste_register'
-#         verbose_name = u"Вкус за торта"
-#         verbose_name_plural = u"Вкусове за торта"
-#
-#     def __str__(self):
-#         return self.palnej + ':' + str(self.level)
-#
+class TortaTasteRegister(BaseModel):
+
+    palnej = models.CharField(max_length=50, blank=True, verbose_name="Пълнеж")
+    level = models.IntegerField(blank=False, null=False, verbose_name="Макс. Етаж")
+    price = models.FloatField(blank=False, null=True, verbose_name="Ед.Цена")
+
+    last_update_date = models.DateTimeField(db_column='LAST_UPDATE_DATE', blank=True, null=True, verbose_name="Дата промяна", default=timezone.now)
+
+    class Meta:
+        managed = True
+        db_table = 'tart_taste_register'
+        verbose_name = u"Вкус за торта"
+        verbose_name_plural = u"Вкусове за торта"
+
+    def __str__(self):
+        return self.palnej + ':' + str(self.level)
+
 
 class TortaRequestPicture(BaseModel):
 
     torta_rq_fk = models.ForeignKey( to=TortaRequest, db_column='tart_id', to_field='id')
     filename = models.FileField(upload_to=settings.TARTIMAGES_STORAGE + "/" + settings.TART_CUSTOM_REQESTS_FOLDER, max_length=100,  blank = True, null= True, verbose_name="Изображение")
-    last_update_date = models.DateTimeField(db_column='LAST_UPDATE_DATE', blank=True, null=True, verbose_name="Дата промяна",default=timezone.now())
+    last_update_date = models.DateTimeField(db_column='LAST_UPDATE_DATE', blank=True, null=True, verbose_name="Дата промяна",default=timezone.now)
 
     class Meta:
         managed = False
@@ -98,21 +98,21 @@ class TortaRequestPicture(BaseModel):
         return str(self.filename)
 
 
-class TortaRequestTaste(BaseModel):
-
-    rec_no = models.IntegerField(blank=False, null=True, verbose_name="Етаж")
-    torta_rq_fk = models.ForeignKey( to=TortaRequest, db_column='tart_id', to_field='id')
-    torta_taste_fk = models.ForeignKey( to=TortaTasteRegister, to_field='id')
-    price = models.FloatField(db_column='PRICE', blank=False, null=True, verbose_name="Ед.Цена")
-
-    class Meta:
-        managed = True
-        db_table = 'tart_req_taste'
-        verbose_name = u"Вкус за торта (заявка)"
-        verbose_name_plural = u"Вкусове за торта (заявка)"
-
-    def __str__(self):
-        return str(self.torta_taste_fk)
+# class TortaRequestTaste(BaseModel):
+#
+#     rec_no = models.IntegerField(blank=False, null=True, verbose_name="Етаж")
+#     torta_rq_fk = models.ForeignKey( to=TortaRequest, db_column='tart_id', to_field='id')
+#     torta_taste_fk = models.ForeignKey( to=TortaTasteRegister, to_field='id')
+#     price = models.FloatField(db_column='PRICE', blank=False, null=True, verbose_name="Ед.Цена")
+#
+#     class Meta:
+#         managed = True
+#         db_table = 'tart_req_taste'
+#         verbose_name = u"Вкус за торта (заявка)"
+#         verbose_name_plural = u"Вкусове за торта (заявка)"
+#
+#     def __str__(self):
+#         return str(self.torta_taste_fk)
 
 
 class TortaPictureRegister(BaseModel):
@@ -130,9 +130,9 @@ class TortaPictureRegister(BaseModel):
 
     category = models.CharField(max_length=150, blank=True, verbose_name="Категория")
     description = models.TextField(max_length=400, blank=True, verbose_name="Описание")
-    last_update_date = models.DateTimeField(db_column='LAST_UPDATE_DATE', blank=True, null=True, verbose_name="Дата промяна",default=timezone.now())
+    last_update_date = models.DateTimeField(db_column='LAST_UPDATE_DATE', blank=True, null=True, verbose_name="Дата промяна",default=timezone.now)
 
-    torta_tase_fk = models.ManyToManyField(TortaTasteRegister, verbose_name="Вкусове")
+    torta_tase_fk = models.ManyToManyField('TortaTasteRegister', verbose_name="Вкусове")
 
     class Meta:
         managed = True
