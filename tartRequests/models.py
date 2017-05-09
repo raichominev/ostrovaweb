@@ -127,8 +127,7 @@ class TortaPictureRegister(BaseModel):
         ('Захарна плака','Захарна плака'),
         ('Стандартна','Стандартна'),)
                                  )
-
-    category = models.CharField(max_length=150, blank=True, verbose_name="Категория")
+    category = models.ForeignKey( to='TortaPictureCategory', verbose_name="Категория")
     description = models.TextField(max_length=400, blank=True, verbose_name="Описание")
     last_update_date = models.DateTimeField(db_column='LAST_UPDATE_DATE', blank=True, null=True, verbose_name="Дата промяна",default=timezone.now)
 
@@ -169,3 +168,13 @@ class TortaPieceCoding(BaseModel):
 
     def __str__(self):
         return str(self.tart_size)
+
+
+class TortaPictureCategory(BaseModel):
+    category = models.CharField(max_length=150, blank=True, verbose_name="Категория")
+
+    class Meta:
+        managed = True
+        db_table = 'tart_category'
+        verbose_name = u"Категория"
+        verbose_name_plural = u"Категории"

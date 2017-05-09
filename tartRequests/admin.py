@@ -162,7 +162,7 @@ admin.site.register(TortaRequest, TortaRequestAdmin)
 
 
 class TortaPictureRegisterForm(ModelForm):
-    category = forms.ChoiceField()
+    #category = forms.ChoiceField()
 
     def __init__(self, *args, **kwargs):
         super(TortaPictureRegisterForm, self).__init__(*args, **kwargs)
@@ -170,21 +170,21 @@ class TortaPictureRegisterForm(ModelForm):
 
         # target_folder = settings.MEDIA_ROOT + "/" +
 
-        directories = ['ЗАЯВКИ',]
-        for categoty_folder in default_storage.listdir(settings.TARTIMAGES_STORAGE)[0]:
-            #if os.path.isdir('/'.join((target_folder,categoty_folder,))):
-                directories.append((categoty_folder, categoty_folder),)
-
-                # for fl in os.listdir('/'.join((target_folder,categoty_folder,))):
-                #     if fl.split('.')[-1] in ('png','jpg'):
-                #         pic = TortaPictureRegister()
-                #         pic.filename = settings.TARTIMAGES_STORAGE + "/" + categoty_folder + "/" + fl
-                #         pic.category = categoty_folder
-                #         pic.code = fl.split('.')[0]
-                #
-                #         pic.save()
-
-        self.fields['category'].choices =  tuple(directories)
+        # directories = ['ЗАЯВКИ',]
+        # for categoty_folder in default_storage.listdir(settings.TARTIMAGES_STORAGE)[0]:
+        #     #if os.path.isdir('/'.join((target_folder,categoty_folder,))):
+        #         directories.append((categoty_folder, categoty_folder),)
+        #
+        #         # for fl in os.listdir('/'.join((target_folder,categoty_folder,))):
+        #         #     if fl.split('.')[-1] in ('png','jpg'):
+        #         #         pic = TortaPictureRegister()
+        #         #         pic.filename = settings.TARTIMAGES_STORAGE + "/" + categoty_folder + "/" + fl
+        #         #         pic.category = categoty_folder
+        #         #         pic.code = fl.split('.')[0]
+        #         #
+        #         #         pic.save()
+        #
+        # self.fields['category'].choices =  tuple(directories)
 
 
 class TortaPictureRegisterAdmin(ModelAdmin):
@@ -203,7 +203,7 @@ class TortaPictureRegisterAdmin(ModelAdmin):
     suit_form_includes = (
         ('admin/tortapictureregister/show_picture_include.html',),
     )
-    form = TortaPictureRegisterForm
+    #form = TortaPictureRegisterForm
 
     filter_horizontal = ('torta_tase_fk',)
 
