@@ -77,7 +77,7 @@ class ChainedChoicesMixin(object):
                         parent_value = kwargs.get(field.parent_field, None)
                         field_value = kwargs.get(field_name, None)
 
-                        if hasattr(field, 'additional_related_field'):
+                        if hasattr(field, 'additional_related_field') and additional_related_field:
                             additional_related_field = field.additional_related_field
                             if '__' in additional_related_field:
                                 # handle reference from inline field
