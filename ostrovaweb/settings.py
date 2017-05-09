@@ -32,7 +32,7 @@ ALLOWED_HOSTS = ['192.168.6.132','127.0.0.1','localhost','testserver']
 INSTALLED_APPS = [
 
     # Project applications
-    'tartRequests',
+    'tartrequests',
     'order',
     'delivery',
     'cashdesk',
@@ -119,24 +119,25 @@ SUIT_CONFIG = {
     #'MENU_EXCLUDE': ('sites',),
     'MENU_OPEN_FIRST_CHILD': True,
     'MENU': (
-        { 'app': 'tartRequests',
-            'label': 'Поръчки за торти',
-            'models': (
-                #{'url': '/fullcalendartarts', 'label': 'Календар Торти', },
-                'tartrequests.tortarequest',
-                # 'tortapictureregister'
-                # 'tortarequestpicture',
-                # 'tortatasteregister',
-                # 'tortapiececoding',
-                # 'tortapicturecategory',
-            ),
-        },
 
         { 'app': 'order',
           'label': 'Поръчки за парти',
           'models': (
               {'url': '/fullcalendar', 'label': 'Календар', },
               'order', ),
+        },
+
+        { 'app': 'tartrequests',
+          'label': 'Поръчки за торти',
+          'models': (
+               {'url': '/fullcalendartarts', 'label': 'Календар Торти', },
+               'tortarequest',
+               'tortapictureregister'
+               'tortarequestpicture',
+               'tortatasteregister',
+               'tortapiececoding',
+               'tortapicturecategory',
+          ),
         },
 
         {   'app': 'delivery',

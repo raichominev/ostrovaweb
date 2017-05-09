@@ -5,7 +5,7 @@ from django.contrib import admin
 
 from nomenclature.article_views import ArticleAjaxChainedView, ArticleAjaxOrderChainedView, article_name_lookup
 from order import calendarview
-from tartRequests.tart_request_views import TartRequestAjaxChainedView
+from tartrequests.tart_request_views import TartRequestAjaxChainedView
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),

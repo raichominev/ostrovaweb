@@ -9,7 +9,7 @@ import django.utils.timezone
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('tartRequests', '0001_initial'),
+        ('tartrequests', '0001_initial'),
     ]
 
     operations = [

@@ -2,5 +2,5 @@ from django.apps import AppConfig
 
 
 class TartrequestsConfig(AppConfig):
-    name = 'tartRequests'
+    name = 'tartrequests'
     verbose_name = 'Поръчки за торти'

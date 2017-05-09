@@ -10,7 +10,7 @@ from django.http import HttpResponse
 from django.utils.cache import add_never_cache_headers
 from django.views.generic.detail import BaseDetailView
 
-from tartRequests.models import TortaPictureRegister, TortaPieceCoding, TortaRequest, TortaTasteRegister
+from tartrequests.models import TortaPictureRegister, TortaPieceCoding, TortaRequest, TortaTasteRegister
 
 symbols = (u"абвгдеёжзийклмнопрстуфхцчшщъыьэюяАБВГДЕЁЖЗИЙКЛМНОПРСТУФХЦЧШЩЪЫЬЭЮЯ",
            u"abvgdeejzijklmnoprstufhzcss_y_euaABVGDEEJZIJKLMNOPRSTUFHZCSS_Y_EUA")

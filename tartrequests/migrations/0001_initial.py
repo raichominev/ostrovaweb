@@ -7,7 +7,7 @@ from django.conf import settings
 from django.db import migrations, models
 import django.db.models.deletion
 from django.utils.timezone import utc
-import tartRequests.models
+import tartrequests.models
 
 
 class Migration(migrations.Migration):
@@ -38,7 +38,7 @@ class Migration(migrations.Migration):
             name='TortaPictureRegister',
             fields=[
                 ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('filename', models.FileField(blank=True, max_length=200, null=True, upload_to=tartRequests.models.TortaPictureRegister.upload_storage, verbose_name='Изображение')),
+                ('filename', models.FileField(blank=True, max_length=200, null=True, upload_to=tartrequests.models.TortaPictureRegister.upload_storage, verbose_name='Изображение')),
                 ('code', models.CharField(blank=True, max_length=50, verbose_name='Код')),
                 ('tart_type', models.CharField(blank=True, choices=[('3D', '3D'), ('Захарна плака', 'Захарна плака'), ('Стандартна', 'Стандартна')], max_length=50, verbose_name='Тип')),
                 ('category', models.CharField(blank=True, max_length=150, verbose_name='Категория')),
@@ -117,6 +117,6 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='tortapictureregister',
             name='torta_tase_fk',
-            field=models.ManyToManyField(to='tartRequests.TortaTasteRegister', verbose_name='Вкусове'),
+            field=models.ManyToManyField(to='tartrequests.TortaTasteRegister', verbose_name='Вкусове'),
         ),
     ]

@@ -11,7 +11,7 @@ from django.forms import ModelForm, TextInput
 from clever_select_enhanced.clever_txt_field import ChainedTextInputField
 from clever_select_enhanced.form_fields import ChainedModelChoiceField, ChainedChoiceField
 from clever_select_enhanced.forms import ChainedChoicesModelForm
-from tartRequests.models import *
+from tartrequests.models import *
 
 
 class TortaRequestInline(admin.StackedInline):
