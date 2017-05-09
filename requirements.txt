@@ -21,7 +21,7 @@ django-bower==5.2.0
 
 #Amazon S3
 django-storages==1.5.2
-boto==2.46.1
+boto3==1.4.4
 
 #heroku
 dj-database-url
