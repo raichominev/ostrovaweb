@@ -3,6 +3,7 @@ import os
 from datetime import datetime
 from django.contrib import admin
 from django.contrib.admin import ModelAdmin
+from django.core.files.storage import default_storage
 from django.core.urlresolvers import reverse_lazy
 from django import forms
 from django.forms import ModelForm, TextInput
@@ -166,11 +167,12 @@ class TortaPictureRegisterForm(ModelForm):
     def __init__(self, *args, **kwargs):
         super(TortaPictureRegisterForm, self).__init__(*args, **kwargs)
 
-        target_folder = settings.MEDIA_ROOT + "/" + settings.TARTIMAGES_STORAGE
+
+        # target_folder = settings.MEDIA_ROOT + "/" +
 
         directories = []
-        for categoty_folder in os.listdir(target_folder):
-            if os.path.isdir('/'.join((target_folder,categoty_folder,))):
+        for categoty_folder in default_storage.listdir(settings.TARTIMAGES_STORAGE):
+            #if os.path.isdir('/'.join((target_folder,categoty_folder,))):
                 directories.append((categoty_folder, categoty_folder),)
 
                 # for fl in os.listdir('/'.join((target_folder,categoty_folder,))):
