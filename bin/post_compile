@@ -1,2 +1,2 @@
-# python manage.py bower install
-# python manage.py collectstatic --noinput
+python manage.py bower install
+python manage.py collectstatic --noinput
