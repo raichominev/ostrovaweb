@@ -124,11 +124,11 @@ SUIT_CONFIG = {
             'models': (
                 {'url': '/fullcalendartarts', 'label': 'Календар Торти', },
                 'tortarequest',
-                'tortapictureregister'
-                'tortarequestpicture',
-                'tortatasteregister',
-                'tortapiececoding',
-                'tortapicturecategory',
+                # 'tortapictureregister'
+                # 'tortarequestpicture',
+                # 'tortatasteregister',
+                # 'tortapiececoding',
+                # 'tortapicturecategory',
             ),
         },
 

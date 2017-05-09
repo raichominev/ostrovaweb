@@ -11,7 +11,7 @@ class BaseModel(models.Model):
         app_label = 'Поръчка за торта'
 
 
-class TortaRequest(BaseModel):
+class TortaRequest(models.Model):
     id = models.AutoField(db_column='ID', primary_key = True, verbose_name="Ном.")
 
     code = models.CharField(db_column='CODE', max_length=50, blank=False, verbose_name="Кат.Номер")
@@ -64,7 +64,7 @@ class TortaRequest(BaseModel):
         return str(self.tart_type) + ':' + str(self.code) + ":" + str(self.tart_name)
 
 
-class TortaTasteRegister(BaseModel):
+class TortaTasteRegister(models.Model):
 
     palnej = models.CharField(max_length=50, blank=True, verbose_name="Пълнеж")
     level = models.IntegerField(blank=False, null=False, verbose_name="Макс. Етаж")
@@ -82,7 +82,7 @@ class TortaTasteRegister(BaseModel):
         return self.palnej + ':' + str(self.level)
 
 
-class TortaRequestPicture(BaseModel):
+class TortaRequestPicture(models.Model):
 
     torta_rq_fk = models.ForeignKey( to=TortaRequest, db_column='tart_id', to_field='id')
     filename = models.FileField(upload_to=settings.TARTIMAGES_STORAGE + "/" + settings.TART_CUSTOM_REQESTS_FOLDER, max_length=100,  blank = True, null= True, verbose_name="Изображение")
@@ -115,7 +115,7 @@ class TortaRequestPicture(BaseModel):
 #         return str(self.torta_taste_fk)
 
 
-class TortaPictureRegister(BaseModel):
+class TortaPictureRegister(models.Model):
 
     def upload_storage(self,name):
         return settings.TARTIMAGES_STORAGE + "/" + self.category.category + "/" + name
@@ -143,7 +143,7 @@ class TortaPictureRegister(BaseModel):
         return str(self.filename)
 
 
-class TortaPieceCoding(BaseModel):
+class TortaPieceCoding(models.Model):
 
     tart_type = models.CharField(max_length=50, verbose_name="Тип", choices=(
         ('3D','3D'),
@@ -170,7 +170,7 @@ class TortaPieceCoding(BaseModel):
         return str(self.tart_size)
 
 
-class TortaPictureCategory(BaseModel):
+class TortaPictureCategory(models.Model):
     category = models.CharField(max_length=150, blank=True, verbose_name="Категория")
 
     class Meta:
