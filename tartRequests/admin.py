@@ -74,7 +74,7 @@ class TortaRequestForm(ChainedChoicesModelForm):
                                       label=u'Тип на торта', required=True, widget_attrs={'readonly': 'true'})
 
     tart_name = ChainedTextInputField(parent_field='code', ajax_url=reverse_lazy('torta_request_ajax_chained_models'),
-                                      label=u'Наименование', required=True, widget_attrs={'readonly': 'true'})
+                                      label=u'Категория', required=True, widget_attrs={'readonly': 'true'})
 
     tart_size = ChainedChoiceField(parent_field='tart_type', ajax_url=reverse_lazy('torta_request_ajax_chained_models'),
                                    label=u'Големина', required=True)

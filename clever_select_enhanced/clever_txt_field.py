@@ -7,6 +7,9 @@ class ChainedTextInput(TextInput):
         self.parent_field = parent_field
         self.ajax_url = ajax_url
         self.field_prefix = field_prefix
+        self.inline_fk_to_master = None
+        self.additional_related_field = None
+
         super(ChainedTextInput, self).__init__(*args, **kwargs)
 
 #    class Media:
@@ -61,6 +64,8 @@ class ChainedTextInputField(CharField):
         self.ajax_url = ajax_url
         self.attrs = widget_attrs
         self.empty_label = empty_label
+        self.inline_fk_to_master = None
+        self.additional_related_field = None
 
         defaults = {
             'widget': ChainedTextInput(parent_field=parent_field, ajax_url=ajax_url, attrs={'empty_label': empty_label}),
@@ -84,6 +89,9 @@ class ChainedNumberInput(NumberInput):
     def __init__(self, parent_field=None, ajax_url=None, *args, **kwargs):
         self.parent_field = parent_field
         self.ajax_url = ajax_url
+        self.inline_fk_to_master = None
+        self.additional_related_field = None
+
         super(ChainedNumberInput, self).__init__(*args, **kwargs)
 
     #    class Media:
@@ -134,6 +142,8 @@ class ChainedNumberInputField(CharField):
         self.ajax_url = ajax_url
         self.attrs = widget_attrs
         self.empty_label = empty_label
+        self.inline_fk_to_master = None
+        self.additional_related_field = None
 
         defaults = {
             'widget': ChainedNumberInput(parent_field=parent_field, ajax_url=ajax_url, attrs={'empty_label': empty_label}),

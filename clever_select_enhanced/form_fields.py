@@ -13,6 +13,8 @@ class ChainedChoiceField(ChoiceField):
         self.ajax_url = ajax_url
         self.choices = choices or (('', empty_label), )
         self.empty_label = empty_label
+        self.inline_fk_to_master = None
+        self.additional_related_field = None
 
         defaults = {
             'widget': ChainedSelect(parent_field=parent_field, ajax_url=ajax_url, attrs={'empty_label': empty_label}),
