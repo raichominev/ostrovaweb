@@ -53,7 +53,7 @@ class TartRequestAjaxChainedView(ChainedSelectChoicesView):
         if self.field == 'tart_name':
             tortaDescr = get_tart_model(self.parent_value)
 
-            vals_list.append(tortaDescr.category)
+            vals_list.append(tortaDescr.category.category)
 
         if self.field == 'tart_size':
             vals_list = [x.id for x in TortaPieceCoding.objects.filter(tart_type = self.parent_value).order_by('tart_size')]
