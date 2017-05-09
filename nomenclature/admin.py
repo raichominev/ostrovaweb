@@ -102,6 +102,8 @@ class EmployeeAdmin(UserAdmin):
 
     def save_model(self, request, obj, form, change):
         if not hasattr(obj, 'employee'):
+            obj.save()
+
             emp = Employee()
             emp.save()
 
