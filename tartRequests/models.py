@@ -5,10 +5,10 @@ from django.utils import timezone
 from ostrovaweb import settings
 
 
-class BaseModel(models.Model):
-    class Meta:
-        abstract=True
-        app_label = 'Поръчка за торта'
+# class BaseModel(models.Model):
+#     class Meta:
+#         abstract=True
+#         app_label = 'Поръчка за торта'
 
 
 class TortaRequest(models.Model):
