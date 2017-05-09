@@ -100,6 +100,12 @@ class EmployeeInline(admin.StackedInline):
 class EmployeeAdmin(UserAdmin):
     inlines = (EmployeeInline, )
 
+    def save_model(self, request, obj, form, change):
+        if not obj.emloyee:
+            obj.employee = Employee()
+
+        super(EmployeeAdmin, self).save_model(request, obj, form, change)
+
 # Re-register UserAdmin
 admin.site.unregister(User)
 admin.site.register(User, EmployeeAdmin)
