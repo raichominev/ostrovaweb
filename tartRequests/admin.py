@@ -249,3 +249,14 @@ class TortaPieceCodingAdmin(ModelAdmin):
     list_per_page = 50
 
 admin.site.register(TortaPieceCoding, TortaPieceCodingAdmin)
+
+
+class TortaPictureCategoryAdmin(ModelAdmin):
+
+    fields = ('category',)
+    list_display = ('category',)
+    list_editable = ('category',)
+    ordering = ['category',]
+    list_per_page = 50
+
+admin.site.register(TortaPictureCategory, TortaPictureCategoryAdmin)
