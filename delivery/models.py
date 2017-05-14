@@ -55,7 +55,10 @@ class DeliveryDetail(models.Model):
 
     @property
     def amount(self):
-        return nvl(self.price, 0)*nvl(self.cnt, 0)
+        try:
+            return nvl(self.price, 0)*nvl(self.cnt, 0)
+        except:
+            return 0
     amount.fget.short_description = 'Крайна цена'
 
     class Meta:
