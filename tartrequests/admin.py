@@ -223,7 +223,7 @@ class TortaPictureRegisterAdmin(DjangoObjectActions, ModelAdmin):
     list_filter = (
         'category','tart_type'
     )
-    list_display = ('code','tart_type','category','description')
+    list_display = ('code__code','tart_type','category','description')
     readonly_fields = ['last_update_date', ]
     ordering = ['code']
     list_per_page = 50
