@@ -2,6 +2,8 @@ import os
 
 from datetime import datetime, timedelta
 
+from django_object_actions import DjangoObjectActions
+
 from datetimewidget.widgets import DateTimeWidget
 from django.contrib import admin
 from django.contrib.admin import ModelAdmin
@@ -13,6 +15,7 @@ from django.forms import ModelForm, TextInput, Textarea
 from clever_select_enhanced.clever_txt_field import ChainedTextInputField
 from clever_select_enhanced.form_fields import ChainedModelChoiceField, ChainedChoiceField
 from clever_select_enhanced.forms import ChainedChoicesModelForm
+from ostrovaweb.utils import fix_code
 from tartrequests.models import *
 
 
@@ -88,6 +91,10 @@ class TortaRequestForm(ChainedChoicesModelForm):
 
     #    price= ChainedTextInputField(parent_field='palnej', ajax_url=reverse_lazy('torta_request_ajax_chained_models'),
     #                                   label=u'Ед. Цена', required=False, widget_attrs={'readonly': 'true'})
+
+    # def clean_code(self):
+    #     self.cleaned_data['code'] = fix_code(self.cleaned_data['code']).upper()
+    #     return self.cleaned_data['code']
 
     class Media:
         js = (
@@ -197,57 +204,73 @@ class TortaRequestAdmin(ModelAdmin):
 admin.site.register(TortaRequest, TortaRequestAdmin)
 
 
-class TortaPictureRegisterForm(ModelForm):
-    #category = forms.ChoiceField()
-
-    def __init__(self, *args, **kwargs):
-        super(TortaPictureRegisterForm, self).__init__(*args, **kwargs)
-
-
-        # target_folder = settings.MEDIA_ROOT + "/" +
-
-        # directories = ['ЗАЯВКИ',]
-        # for categoty_folder in default_storage.listdir(settings.TARTIMAGES_STORAGE)[0]:
-        #     #if os.path.isdir('/'.join((target_folder,categoty_folder,))):
-        #         directories.append((categoty_folder, categoty_folder),)
-        #
-        #         # for fl in os.listdir('/'.join((target_folder,categoty_folder,))):
-        #         #     if fl.split('.')[-1] in ('png','jpg'):
-        #         #         pic = TortaPictureRegister()
-        #         #         pic.filename = settings.TARTIMAGES_STORAGE + "/" + categoty_folder + "/" + fl
-        #         #         pic.category = categoty_folder
-        #         #         pic.code = fl.split('.')[0]
-        #         #
-        #         #         pic.save()
-        #
-        # self.fields['category'].choices =  tuple(directories)
+# class TortaPictureRegisterForm(ModelForm):
+#     #category = forms.ChoiceField()
+#
+#     def __init__(self, *args, **kwargs):
+#         super(TortaPictureRegisterForm, self).__init__(*args, **kwargs)
+#
+#
+#         target_folder = ''
+#
+#         #directories = ['ЗАЯВКИ',]
+#         # self.fields['category'].choices =  tuple(directories)
 
 
-class TortaPictureRegisterAdmin(ModelAdmin):
+class TortaPictureRegisterAdmin(DjangoObjectActions, ModelAdmin):
 
     search_fields = ('description','code','category')
     list_filter = (
-        'category',
+        'category','tart_type'
     )
     list_display = ('code','tart_type','category','description')
     readonly_fields = ['last_update_date', ]
-    #list_editable   = ()
     ordering = ['code']
     list_per_page = 50
-    # exclude = []
 
     suit_form_includes = (
         ('admin/tortapictureregister/show_picture_include.html',),
     )
-    #form = TortaPictureRegisterForm
 
-    #filter_horizontal = ('torta_tase_fk',)
+    def reload_pics_from_storage(self, request, obj):
 
-    # def get_changelist_form(self, request, **kwargs):
-    #     kwargs.setdefault('form', self.form)
-    #     return super(TortaRequestAdmin, self).get_changelist_form(request, **kwargs)
+        for categoty_folder in default_storage.listdir(settings.TARTIMAGES_STORAGE)[0]:
+            if not TortaPictureCategory.objects.filter(category=categoty_folder).exists():
+                dbCat = TortaPictureCategory()
+                dbCat.category = categoty_folder
+                dbCat.save()
+            else:
+                dbCat = TortaPictureCategory.objects.get(category = categoty_folder)
+
+            for fl in default_storage.listdir('/'.join((settings.TARTIMAGES_STORAGE,categoty_folder,)))[1]:
+                if fl.split('.')[-1].upper() in ('PNG','JPG'):
+
+                    code = fix_code(fl.split('.')[0]).upper()
+                    if not TortaPictureRegister.objects.filter(code=code).exists():
+
+                        pic = TortaPictureRegister()
+                        pic.filename = settings.TARTIMAGES_STORAGE + "/" + categoty_folder + "/" + fl
+                        pic.category = dbCat
+                        pic.code = code
+
+                        if code.startswith('D'):
+                            pic.tart_type = '3D'
+                        elif code.startswith('K'):
+                            pic.tart_type = 'Захарна плака'
+                        else:
+                            pic.tart_type = 'Стандартна'
+
+                        pic.save()
+
+    reload_pics_from_storage.label = "Ръчно презареждане"
+    reload_pics_from_storage.short_description = "Ръчно презареждане"
+
+    change_actions = ('reload_pics_from_storage',)
+    #changelist_actions = ('reload_pics_from_storage',)
 
     def save_model(self, request, obj, form, change):
+
+        obj.code = fix_code(obj.code).upper()
         obj.last_update_date = datetime.now().replace(microsecond=0)
         obj.save()
 

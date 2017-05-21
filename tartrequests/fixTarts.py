@@ -1,5 +1,5 @@
-from django.contrib.contenttypes.models import ContentType
-from django.core.urlresolvers   import reverse
+import os
+
 
 symbols = (u"абвгдеёжзийклмнопрстуфхцчшщъыьэюяАБВГДЕЁЖЗИЙКЛМНОПРСТУФХЦЧШЩЪЫЬЭЮЯ",
            u"abvgdeejzijklmnoprstufhzcss_y_euaABVGDEEJZIJKLMNOPRSTUFHZCSS_Y_EUA")
@@ -17,18 +17,12 @@ def fix_code_reverse(code):
     return code.translate(tr_reverse).upper()
 
 
-def nvl(data, val=''):
-    if data is None:
-        return val
-    return data
+target_folder = "G:/prj/ostrovaweb/tartImages"
 
+for categoty_folder in os.listdir(target_folder):
+    if os.path.isdir('/'.join((target_folder,categoty_folder,))):
+        #directories.append((categoty_folder, categoty_folder),)
 
-class AdminURLMixin(object):
-
-    def get_admin_url(self):
-        content_type = ContentType.objects.get_for_model(self.__class__)
-
-        return reverse("admin:%s_%s_change" % (
-            content_type.app_label,
-            content_type.model),
-                       args=(self.id,))
+        for fl in os.listdir('/'.join((target_folder,categoty_folder,))):
+            if fl.split('.')[-1] in ('png','jpg'):
+                os.rename(os.path.join(target_folder,categoty_folder,fl), os.path.join(target_folder,categoty_folder,fix_code(fl).upper()))

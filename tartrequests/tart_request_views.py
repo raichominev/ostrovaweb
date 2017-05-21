@@ -10,22 +10,8 @@ from django.http import HttpResponse
 from django.utils.cache import add_never_cache_headers
 from django.views.generic.detail import BaseDetailView
 
+from ostrovaweb.utils import fix_code, fix_code_reverse
 from tartrequests.models import TortaPictureRegister, TortaPieceCoding, TortaRequest, TortaTasteRegister
-
-symbols = (u"абвгдеёжзийклмнопрстуфхцчшщъыьэюяАБВГДЕЁЖЗИЙКЛМНОПРСТУФХЦЧШЩЪЫЬЭЮЯ",
-           u"abvgdeejzijklmnoprstufhzcss_y_euaABVGDEEJZIJKLMNOPRSTUFHZCSS_Y_EUA")
-tr = dict([(ord(a), ord(b)) for (a, b) in zip(*symbols)])
-
-symbols_reverse = (u"abvgdeejzijklmnoprstufhzcss_y_euaABVGDEEJZIJKLMNOPRSTUFHZCSS_Y_EUA",
-            u"абвгдеёжзийклмнопрстуфхцчшщъыьэюяАБВГДЕЁЖЗИЙКЛМНОПРСТУФХЦЧШЩЪЫЬЭЮЯ")
-tr_reverse = dict([(ord(a), ord(b)) for (a, b) in zip(*symbols_reverse)])
-
-
-def fix_code(code):
-    return code.translate(tr).upper()
-
-def fix_code_reverse(code):
-    return code.translate(tr_reverse).upper()
 
 def get_tart_model(code):
     try:

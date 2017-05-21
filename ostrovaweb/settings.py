@@ -138,8 +138,7 @@ SUIT_CONFIG = {
           'models': (
               {'url': '/fullcalendartarts', 'label': 'Календар Торти', 'permissions': ('tartrequests.view_tortarequest_calendar', )},
               'tortarequest',
-              'tortapictureregister'
-              'TortaPictureRegister',
+              'tortapictureregister',
               'tortatasteregister',
               'tortapiececoding',
               'tortapicturecategory',
@@ -260,7 +259,7 @@ STATICFILES_STORAGE = 'whitenoise.django.GzipManifestStaticFilesStorage'
 # MEDIA_URL = '/upload/'
 
 TARTIMAGES_STORAGE = u'tartImages'
-TART_CUSTOM_REQESTS_FOLDER = u'ЗАЯВКИ'
+TART_CUSTOM_REQESTS_FOLDER = u'ВЪНШНИ ЗАЯВКИ'
 
 AWS_QUERYSTRING_AUTH = False
 AWS_ACCESS_KEY_ID = os.environ.get('BUCKETEER_AWS_ACCESS_KEY_ID',None)

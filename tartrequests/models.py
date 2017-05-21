@@ -25,7 +25,7 @@ class TortaDeliveryAddress(models.Model):
         return str(self.group) + ':' + str(self.delivery_address)
 
 class TortaRequest(models.Model):
-    id = models.AutoField(db_column='ID', primary_key = True, verbose_name="Ном.")
+    id = models.AutoField(db_column='ID', primary_key = True, verbose_name="Рег. Номер  ")
 
     code = models.ForeignKey('TortaPictureRegister', db_column="CODE", to_field='code', verbose_name="Кат.Номер")
     tart_type = models.CharField(db_column='TART_TYPE', max_length=50, blank=False, verbose_name="Вид")
@@ -160,7 +160,7 @@ class TortaPictureRegister(models.Model):
         verbose_name_plural = u"Видове торти"
 
     def __str__(self):
-        return str(self.filename)
+        return str(self.code)
 
 
 class TortaPieceCoding(models.Model):
