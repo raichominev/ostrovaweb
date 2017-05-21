@@ -1,4 +1,4 @@
-from django.contrib.auth.models import User
+from django.contrib.auth.models import User, Group
 from django.db import models
 from django.utils import timezone
 
@@ -11,14 +11,27 @@ from ostrovaweb import settings
 #         app_label = 'Поръчка за торта'
 
 
+
+class TortaDeliveryAddress(models.Model):
+    delivery_address  = models.CharField(db_column='DELIVERY_ADDRESS', max_length=1000, verbose_name="Адрес на доставка")
+    group = models.ForeignKey(Group, verbose_name="Група")
+
+    class Meta:
+        managed = True
+        verbose_name = u"Адрес за доставка"
+        verbose_name_plural = u"Адреси за доставка"
+
+    def __str__(self):
+        return str(self.group) + ':' + str(self.delivery_address)
+
 class TortaRequest(models.Model):
     id = models.AutoField(db_column='ID', primary_key = True, verbose_name="Ном.")
 
-    code = models.CharField(db_column='CODE', max_length=50, blank=False, verbose_name="Кат.Номер")
+    code = models.ForeignKey('TortaPictureRegister', db_column="CODE", to_field='code', verbose_name="Кат.Номер")
     tart_type = models.CharField(db_column='TART_TYPE', max_length=50, blank=False, verbose_name="Вид")
     tart_size = models.CharField(db_column='TART_SIZE', max_length=50,blank=False, null=True, verbose_name="Големина")
     torta_cnt = models.IntegerField(db_column='TORTA_CNT', blank=False, null=True, verbose_name="Брой парчета")
-    palnej = models.CharField(db_column='PALNEJ', max_length=100, blank=True, verbose_name="Пълнеж", default='-----')
+    palnej = models.ForeignKey('TortaTasteRegister',db_column="PALNEJ",  verbose_name="Пълнеж")
     nadpis = models.CharField(db_column='NADPIS', max_length=150, blank=True, verbose_name="Надпис")
 
     tart_name = models.CharField(db_column='TART_NAME', max_length=100, blank=True, verbose_name="Вкус")
@@ -27,14 +40,14 @@ class TortaRequest(models.Model):
     notes = models.TextField(db_column='NOTES', max_length=3000, blank=True, verbose_name="Забележка")
 
     dostavka_date = models.DateTimeField(db_column='DOSTAVKA_DATE', blank=False, null=True, verbose_name="Дата доставка")
-    delivery_address  = models.TextField(db_column='DELIVERY_ADDRESS', max_length=1000, blank=True, verbose_name="Адрес на доставка")
+    delivery_address  = models.TextField(db_column='DELIVERY_ADDRESS', max_length=1000, blank=True, null=True, verbose_name="Адрес на доставка")
     client_phone = models.CharField(db_column='CLIENT_PHONE', max_length=50, blank=True, verbose_name="Телефон")
 
-    changes = models.TextField(db_column='CHANGES', max_length=3000, blank=True, verbose_name="История на промените")
+    #changes = models.TextField(db_column='CHANGES', max_length=3000, blank=True, verbose_name="История на промените")
     reg_date = models.DateTimeField(db_column='REG_DATE', blank=False, null=False, verbose_name="Дата заявка", default=timezone.now)
     last_update_date = models.DateTimeField(db_column='LAST_UPDATE_DATE', blank=True, null=True, verbose_name="Дата промяна")
     user_fk = models.ForeignKey(User, to_field='id',db_column='USER_ID', verbose_name="Заявител")
-    club_fk = models.ForeignKey('nomenclature.Club', verbose_name="Клуб", default=1)
+    club_fk = models.ForeignKey('nomenclature.Club', verbose_name="Клуб")
 
     status = models.CharField(db_column='STATUS', max_length=50, blank=False, verbose_name="Статус", choices=(
         ('NEW','Нова'),
@@ -59,6 +72,13 @@ class TortaRequest(models.Model):
         db_table = 'tart_req'
         verbose_name = u"Заявка за торта"
         verbose_name_plural = u"Заявки за торта"
+
+        permissions = (
+            ('change_tortarequest','Променя Заявка за торта'),
+            ('add_tortarequest','Добавя Заявка за торта'),
+            ('delete_tortarequest','Изтрива Заявка за торта'),
+            ('view_tortarequest_calendar', 'Календар за Заявка за торта')
+        )
 
     def __str__(self):
         return str(self.tart_type) + ':' + str(self.code) + ":" + str(self.tart_name)
@@ -121,7 +141,7 @@ class TortaPictureRegister(models.Model):
         return settings.TARTIMAGES_STORAGE + "/" + self.category.category + "/" + name
 
     filename = models.FileField(upload_to=upload_storage, max_length=200,  blank = True, null= True, verbose_name="Изображение")
-    code = models.CharField(max_length=50, blank=True, verbose_name="Код")
+    code = models.CharField(unique=True,max_length=50, verbose_name="Код")
     tart_type = models.CharField(max_length=50, blank=True, verbose_name="Тип", choices=(
         ('3D','3D'),
         ('Захарна плака','Захарна плака'),
@@ -131,7 +151,7 @@ class TortaPictureRegister(models.Model):
     description = models.TextField(max_length=400, blank=True, verbose_name="Описание")
     last_update_date = models.DateTimeField(db_column='LAST_UPDATE_DATE', blank=True, null=True, verbose_name="Дата промяна",default=timezone.now)
 
-    torta_tase_fk = models.ManyToManyField('TortaTasteRegister', verbose_name="Вкусове")
+    #torta_tase_fk = models.ManyToManyField('TortaTasteRegister', verbose_name="Вкусове")
 
     class Meta:
         managed = True

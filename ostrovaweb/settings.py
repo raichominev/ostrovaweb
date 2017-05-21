@@ -39,8 +39,12 @@ INSTALLED_APPS = [
     'store',
     'nomenclature',
 
+    # not including it as installed, because it only supplies js/css, and those are being modified and inluded in own app static
+    # 'datetimewidget',
+
     'suit',
     'django_object_actions',
+
 
     'django.contrib.admin',
     'django.contrib.auth',
@@ -114,6 +118,15 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'ostrovaweb.wsgi.application'
 
+AUTH_PASSWORD_VALIDATORS = [
+    {
+        'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator',
+        'OPTIONS': {
+            'min_length': 6,
+        }
+    },
+]
+
 SUIT_CONFIG = {
     'ADMIN_NAME': 'Парти център ERP',
     #'MENU_EXCLUDE': ('sites',),
@@ -123,13 +136,14 @@ SUIT_CONFIG = {
         { 'app': 'tartrequests',
           'label': 'Поръчки за торти',
           'models': (
+              {'url': '/fullcalendartarts', 'label': 'Календар Торти', 'permissions': ('tartrequests.view_tortarequest_calendar', )},
               'tortarequest',
-              {'url': '/fullcalendartarts', 'label': 'Календар Торти', },
               'tortapictureregister'
-              'tortarequestpicture',
+              'TortaPictureRegister',
               'tortatasteregister',
               'tortapiececoding',
               'tortapicturecategory',
+              'tortadeliveryaddress',
           ),
           },
 
@@ -195,22 +209,6 @@ DATABASES = {
 
 # Password validation
 # https://docs.djangoproject.com/en/1.10/ref/settings/#auth-password-validators
-
-AUTH_PASSWORD_VALIDATORS = [
-    {
-        'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
-    },
-    {
-        'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator',
-    },
-    {
-        'NAME': 'django.contrib.auth.password_validation.CommonPasswordValidator',
-    },
-    {
-        'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
-    },
-]
-
 
 # Internationalization
 LANGUAGE_CODE = 'bg'

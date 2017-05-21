@@ -24,12 +24,12 @@ function changeCssShow() {
 
 function clickCounter() {
 
-    if (document.getElementById('myButton').firstChild.data == "Hide  Menu") {
-        document.getElementById('myButton').firstChild.data = "Show Menu";
+    if (document.getElementById('myButton').firstChild.data == "Скрий Меню") {
+        document.getElementById('myButton').firstChild.data = "Покажи Меню";
         changeCssHide();
     }
     else {
-        document.getElementById('myButton').firstChild.data = "Hide  Menu";
+        document.getElementById('myButton').firstChild.data = "Скрий Меню";
         changeCssShow();
     }
 
@@ -38,10 +38,10 @@ function clickCounter() {
 
 }
 
-django.jQuery(function() {
+$(function() {
     //reload the actual menu state from browser's session and display accordingly on document load
-    document.getElementById('myButton').firstChild.data = sessionStorage.menuMark || "Hide  Menu";
-    if (document.getElementById('myButton').firstChild.data == "Show Menu") {
+    document.getElementById('myButton').firstChild.data = sessionStorage.menuMark || "Скрий Меню";
+    if (document.getElementById('myButton').firstChild.data == "Покажи Меню") {
         changeCssHide();
     } else {
         changeCssShow();

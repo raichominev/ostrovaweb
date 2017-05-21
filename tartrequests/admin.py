@@ -1,12 +1,14 @@
 import os
 
-from datetime import datetime
+from datetime import datetime, timedelta
+
+from datetimewidget.widgets import DateTimeWidget
 from django.contrib import admin
 from django.contrib.admin import ModelAdmin
 from django.core.files.storage import default_storage
 from django.core.urlresolvers import reverse_lazy
 from django import forms
-from django.forms import ModelForm, TextInput
+from django.forms import ModelForm, TextInput, Textarea
 
 from clever_select_enhanced.clever_txt_field import ChainedTextInputField
 from clever_select_enhanced.form_fields import ChainedModelChoiceField, ChainedChoiceField
@@ -70,6 +72,8 @@ class TortaRequestInline(admin.StackedInline):
 
 class TortaRequestForm(ChainedChoicesModelForm):
 
+    delivery_address = forms.ModelChoiceField(label="Адрес на доставка", queryset=None, empty_label='-------', required=False)
+
     tart_type = ChainedTextInputField(parent_field='code', ajax_url=reverse_lazy('torta_request_ajax_chained_models'),
                                       label=u'Тип на торта', required=True, widget_attrs={'readonly': 'true'})
 
@@ -85,27 +89,38 @@ class TortaRequestForm(ChainedChoicesModelForm):
     #    price= ChainedTextInputField(parent_field='palnej', ajax_url=reverse_lazy('torta_request_ajax_chained_models'),
     #                                   label=u'Ед. Цена', required=False, widget_attrs={'readonly': 'true'})
 
+    class Media:
+        js = (
+                 #'js/moment.min.js',
+                 'js/moment-with-locales.min.js',
+                 'js/bootstrap-datetimepicker.js'
+             )
+        css = {
+            'all' : ('css/bootstrap-datetimepicker.min.css',),
+        }
+
     class Meta:
         model = TortaRequest
         fields = '__all__'
         widgets = {
-            #'tart_type': TextInput(attrs={'style':'width:80px'}),
             'code': TextInput(attrs={'style':'width:80px'}),
-            #'torta_cnt': NumberInput(attrs={'style':'width:80px'}),
-            #'tart_name': TextInput(attrs={'style':'width:200px'}),
-            #'price': NumberInput(attrs={'style':'width:80px'}),
             'nadpis': TextInput(attrs={'style':'width:500px'}),
-            #'palnej': TextInput(attrs={'style':'width:200px'}),
+            'notes': Textarea(attrs={'style':'width:500px'}),
+            'dostavka_date': DateTimeWidget(options = {
+                'format': 'yyyy-mm-dd hh:ii',
+                'startDate': (datetime.now()+ timedelta(days=1)).strftime('%Y-%m-%d'),
+                'initialDate': (datetime.now() + timedelta(days=1)).strftime('%Y-%m-%d 09:00'),
+                'minView':1,
+                'hoursDisabled': '"0,1,2,3,4,5,6,7,8,10,12,14,16,18,20,21,22,23"',
+            })
         }
 
 class TortaRequestAdmin(ModelAdmin):
-    #autocomplete is a work in progress for now.
-    #form = autocomplete_light.modelform_factory(ArtikulTypes)
 
     form = TortaRequestForm
     model = TortaRequest
 
-    list_display = ('code','tart_type','tart_name','torta_cnt','price','status', 'id', 'reg_date')
+    list_display = ('code','tart_type','tart_name','palnej','torta_cnt','price','status', 'id', 'reg_date')
     search_fields = ('tart_name','code',)
     list_filter = (
         ('status', admin.ChoicesFieldListFilter),
@@ -115,9 +130,20 @@ class TortaRequestAdmin(ModelAdmin):
     ordering = ['-id']
     list_per_page = 50
 
+    # this is necessary for the DateTimeWidget to save properly
+    formfield_overrides = {
+        models.DateTimeField: {
+            'form_class': forms.DateTimeField,
+        },
+    }
+
+    suit_form_includes = (
+        ('admin/tortarequest/show_picture_include.html','top'),
+    )
+
     fieldsets = (
         ('Торта', {
-            'fields': ('code', 'tart_type', 'tart_name', 'tart_size','torta_cnt', 'nadpis'),
+            'fields': ('code', 'tart_type', 'tart_name', 'tart_size','torta_cnt', 'nadpis', 'palnej'),
         }),
 
         ('Доставка', {
@@ -129,27 +155,37 @@ class TortaRequestAdmin(ModelAdmin):
         }),
 
         ('Служебна информация', {
-            'fields': ('changes', 'reg_date','last_update_date', 'user_fk', 'club_fk'),
+            'fields': ( 'reg_date','last_update_date', 'user_fk', 'club_fk'),
         }),
 
     )
-    readonly_fields = ['changes','last_update_date', 'club_fk', 'user_fk','id']
-    #list_editable   = ()
-    # exclude = []
-
-
-    # def get_changelist_form(self, request, **kwargs):
-    #     kwargs.setdefault('form', self.form)
-    #     return super(TortaRequestAdmin, self).get_changelist_form(request, **kwargs)
+    readonly_fields = ['last_update_date', 'user_fk','id','reg_date']
 
     inlines = [ TortaRequestInline, ]
 
 
-    def get_changeform_initial_data(self, request):
-        # auto-populate user
-        get_data = super(TortaRequestAdmin, self).get_changeform_initial_data(request)
-        get_data['user_id'] = request.user.pk
-        return get_data
+    def get_form(self, request, obj=None, **kwargs):
+
+        form = super(TortaRequestAdmin, self).get_form(request, obj,**kwargs)
+
+        # if edditing (obj will be filled in with the exeistin model)
+        if obj:
+            # alternatives for readonly:
+            # form.base_fields['supplier_fk'].widget.attrs.update({'readonly':'True','style':'pointer-events:none'})
+            # form.base_fields['club_fk'].widget = django.forms.widgets.Select(attrs={'readonly':'True','onfocus':"this.defaultIndex=this.selectedIndex;", 'onchange':"this.selectedIndex=this.defaultIndex;"})
+            form.base_fields['club_fk'].disabled = True
+
+        # if club is specified for the current user (in the user model), do not allow choosing another club
+        if request.user.employee.club_fk:
+            form.base_fields['club_fk'].initial = request.user.employee.club_fk
+            form.base_fields['club_fk'].widget.attrs.update({'readonly':'True','style':'pointer-events:none'})  # simulates readonly on the browser with the help of css
+            #form.base_fields['club_fk'].disabled = True  - does not work well on add new operation's on save
+
+            form.base_fields['status'].disabled = True
+
+        form.base_fields['delivery_address'].queryset = TortaDeliveryAddress.objects.filter(group__in=request.user.groups.all())
+
+        return form
 
     def save_model(self, request, obj, form, change):
 
@@ -205,7 +241,7 @@ class TortaPictureRegisterAdmin(ModelAdmin):
     )
     #form = TortaPictureRegisterForm
 
-    filter_horizontal = ('torta_tase_fk',)
+    #filter_horizontal = ('torta_tase_fk',)
 
     # def get_changelist_form(self, request, **kwargs):
     #     kwargs.setdefault('form', self.form)
@@ -260,3 +296,14 @@ class TortaPictureCategoryAdmin(ModelAdmin):
     list_per_page = 50
 
 admin.site.register(TortaPictureCategory, TortaPictureCategoryAdmin)
+
+class TortaDeliveryAddressAdmin(ModelAdmin):
+
+    fields = ('delivery_address','group')
+    list_display = ('delivery_address','group',)
+    list_editable = ('delivery_address','group',)
+    ordering = ['group', 'delivery_address',]
+    list_per_page = 50
+
+admin.site.register(TortaDeliveryAddress, TortaDeliveryAddressAdmin)
+
