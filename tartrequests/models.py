@@ -21,7 +21,7 @@ class TortaDeliveryAddress(models.Model):
 class TortaRequest(models.Model):
     id = models.AutoField(db_column='ID', primary_key = True, verbose_name="Рег. Номер  ")
 
-    code = models.ForeignKey('TortaPictureRegister', verbose_name="Кат.Номер:Тип:Категория")
+    code = models.ForeignKey('TortaPictureRegister', verbose_name="Кат.No:Тип:Категория")
     tart_size = models.ForeignKey('TortaPieceCoding', db_column='TART_SIZE', blank=False, null=True, verbose_name="Големина")
     palnej = models.ForeignKey('TortaTasteRegister',db_column="PALNEJ",  verbose_name="Пълнеж")
     nadpis = models.CharField(db_column='NADPIS', max_length=150, blank=True, verbose_name="Надпис")
@@ -84,7 +84,7 @@ class TortaTasteRegister(models.Model):
         verbose_name_plural = u"Вкусове за торта"
 
     def __str__(self):
-        return self.palnejk
+        return self.palnej
 
 
 class TortaRequestPicture(models.Model):
@@ -104,6 +104,13 @@ class TortaRequestPicture(models.Model):
 
 
 class TortaPictureRegister(models.Model):
+
+    def short_tart_type(self, type):
+        return {
+            '3D':'3D',
+            'Захарна плака':'З.Плака',
+            'Стандартна':'Стд.'
+        }.get(type,type)
 
     def upload_storage(self,name):
         return settings.TARTIMAGES_STORAGE + "/" + self.category.category + "/" + name
@@ -126,7 +133,7 @@ class TortaPictureRegister(models.Model):
         verbose_name_plural = u"Видове торти"
 
     def __str__(self):
-        return str(self.code) + ':' + str(self.tart_type) + ':' + str(self.category)
+        return str(self.code) + ':' + str(self.short_tart_type(self.tart_type)) + ':' + str(self.category)
 
 
 class TortaPieceCoding(models.Model):

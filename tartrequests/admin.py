@@ -83,19 +83,22 @@ class CodeFixingModelSelect2Widget(ModelSelect2Widget):
 
 class TortaRequestForm(ChainedChoicesModelForm):
 
-    delivery_address = forms.ModelChoiceField(label="Адрес на доставка", queryset=None, empty_label='-------', required=False)
+    delivery_address = forms.ModelChoiceField(label="Адрес на доставка", queryset=None, empty_label='-------',
+                                              required=False)
 
-    tart_size = ChainedModelChoiceField(parent_field='code', ajax_url=reverse_lazy('torta_request_ajax_chained_models'),
-                                   label=u'Големина', required=True, model=TortaPieceCoding)
+    tart_size = ChainedModelChoiceField(parent_field='code',
+                                        ajax_url=reverse_lazy('torta_request_ajax_chained_models'),
+                                        label=u'Големина',
+                                        required=True,
+                                        widget_attrs={'style':'width:120px'},
+                                        model=TortaPieceCoding)
 
-    palnej = ChainedModelChoiceField(parent_field='tart_size', ajax_url=reverse_lazy('torta_request_ajax_chained_models'),
-                                        label=u'Пълнеж', required=True, model=TortaTasteRegister)
-
-#    torta_cnt = ChainedTextInputField(parent_field='tart_size', ajax_url=reverse_lazy('torta_request_ajax_chained_models'),
-#                                      label=u'Брой парчета', required=True, widget_attrs={'readonly': 'true'})
-
-    #    price= ChainedTextInputField(parent_field='palnej', ajax_url=reverse_lazy('torta_request_ajax_chained_models'),
-    #                                   label=u'Ед. Цена', required=False, widget_attrs={'readonly': 'true'})
+    palnej = ChainedModelChoiceField(parent_field='tart_size',
+                                     ajax_url=reverse_lazy('torta_request_ajax_chained_models'),
+                                     label=u'Пълнеж',
+                                     required=True,
+                                     widget_attrs={'style':'width:200px'},
+                                     model=TortaTasteRegister)
 
     # def clean_code(self):
     #     self.cleaned_data['code'] = fix_code(self.cleaned_data['code']).upper()
@@ -115,8 +118,7 @@ class TortaRequestForm(ChainedChoicesModelForm):
         model = TortaRequest
         fields = '__all__'
         widgets = {
-            #'code': TextInput(attrs={'style':'width:80px'}),
-            'nadpis': TextInput(attrs={'style':'width:500px'}),
+            'nadpis': Textarea(attrs={'rows':2,'style':'width:300px;height:40px'}),
             'notes': Textarea(attrs={'style':'width:500px'}),
             'dostavka_date': DateTimeWidget(options = {
                 'format': 'yyyy-mm-dd hh:ii',
@@ -127,7 +129,8 @@ class TortaRequestForm(ChainedChoicesModelForm):
             }),
             'code' : CodeFixingModelSelect2Widget(
                  model=TortaPictureRegister,
-                 search_fields=['code__icontains']
+                 search_fields=['code__icontains','category__category__icontains', 'description__icontains'],
+                 attrs={'style':'width:280px'},
             )
         }
 

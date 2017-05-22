@@ -48,7 +48,7 @@ class TartRequestAjaxChainedView(ChainedSelectChoicesView):
 
         if self.field == 'palnej':
             pieceCoding = TortaPieceCoding.objects.get(id=self.parent_value)
-            tastes =  TortaTasteRegister.objects.filter(level__lte = pieceCoding.levels).order_by('id')
+            tastes =  TortaTasteRegister.objects.filter(level__gte = pieceCoding.levels).order_by('id')
 
             vals_list = [x.id for x in tastes]
             descr_list = [x.palnej for x in tastes]

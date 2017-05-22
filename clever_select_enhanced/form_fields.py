@@ -7,7 +7,7 @@ from clever_select_enhanced.widgets import ChainedSelect
 
 
 class ChainedChoiceField(ChoiceField):
-    def __init__(self, parent_field, ajax_url, choices=None, empty_label='--------', *args, **kwargs):
+    def __init__(self, parent_field, ajax_url, choices=None, empty_label='--------', widget_attrs = {}, *args, **kwargs):
 
         self.parent_field = parent_field
         self.ajax_url = ajax_url
@@ -15,6 +15,7 @@ class ChainedChoiceField(ChoiceField):
         self.empty_label = empty_label
         self.inline_fk_to_master = None
         self.additional_related_field = None
+        self.attrs = widget_attrs
 
         defaults = {
             'widget': ChainedSelect(parent_field=parent_field, ajax_url=ajax_url, attrs={'empty_label': empty_label}),
@@ -23,13 +24,18 @@ class ChainedChoiceField(ChoiceField):
 
         super(ChainedChoiceField, self).__init__(choices=self.choices, *args, **defaults)
 
+    def widget_attrs(self,widget):
+        attrs = super(ChoiceField, self).widget_attrs(widget)
+        attrs.update(self.attrs)
+        return attrs
+
     def valid_value(self, value):
         """Dynamic choices so just return True for now"""
         return True
 
 
 class ChainedModelChoiceField(ModelChoiceField):
-    def __init__(self, parent_field, ajax_url, model, empty_label='--------', inline_fk_to_master = None, field_prefix = None, additional_related_field=None, additional_related_field_prefix = None, *args, **kwargs):
+    def __init__(self, parent_field, ajax_url, model, empty_label='--------', inline_fk_to_master = None, field_prefix = None, additional_related_field=None, additional_related_field_prefix = None, widget_attrs = {}, *args, **kwargs):
 
         self.parent_field = parent_field
         self.ajax_url = ajax_url
@@ -39,6 +45,7 @@ class ChainedModelChoiceField(ModelChoiceField):
         self.empty_label = empty_label
         self.inline_fk_to_master = inline_fk_to_master
         self.additional_related_field = additional_related_field
+        self.attrs = widget_attrs
 
         # if field is referencing from inline to master record, then field prefix should not be the inline field form, but rather the simplier
         # id_<field name>. The ChainedSelect will account this.
@@ -62,6 +69,11 @@ class ChainedModelChoiceField(ModelChoiceField):
         defaults.update(kwargs)
 
         super(ChainedModelChoiceField, self).__init__(queryset=self.queryset, empty_label=empty_label, *args, **defaults)
+
+    def widget_attrs(self,widget):
+        attrs = super(ChainedModelChoiceField, self).widget_attrs(widget)
+        attrs.update(self.attrs)
+        return attrs
 
     def valid_value(self, value):
         """Dynamic choices so just return True for now"""
