@@ -2,7 +2,9 @@ import os
 
 from datetime import datetime, timedelta
 
+from decimal import Decimal
 from django_object_actions import DjangoObjectActions
+from django_select2.forms import ModelSelect2Widget
 
 from datetimewidget.widgets import DateTimeWidget
 from django.contrib import admin
@@ -73,21 +75,24 @@ class TortaRequestInline(admin.StackedInline):
 #         return self.attrs
 
 
+
+class CodeFixingModelSelect2Widget(ModelSelect2Widget):
+    def filter_queryset(self, term, queryset=None, **dependent_fields):
+        term = fix_code(term).upper()
+        return super(CodeFixingModelSelect2Widget, self).filter_queryset(term,queryset,**dependent_fields)
+
 class TortaRequestForm(ChainedChoicesModelForm):
 
     delivery_address = forms.ModelChoiceField(label="Адрес на доставка", queryset=None, empty_label='-------', required=False)
 
-    tart_type = ChainedTextInputField(parent_field='code', ajax_url=reverse_lazy('torta_request_ajax_chained_models'),
-                                      label=u'Тип на торта', required=True, widget_attrs={'readonly': 'true'})
+    tart_size = ChainedModelChoiceField(parent_field='code', ajax_url=reverse_lazy('torta_request_ajax_chained_models'),
+                                   label=u'Големина', required=True, model=TortaPieceCoding)
 
-    tart_name = ChainedTextInputField(parent_field='code', ajax_url=reverse_lazy('torta_request_ajax_chained_models'),
-                                      label=u'Категория', required=True, widget_attrs={'readonly': 'true'})
+    palnej = ChainedModelChoiceField(parent_field='tart_size', ajax_url=reverse_lazy('torta_request_ajax_chained_models'),
+                                        label=u'Пълнеж', required=True, model=TortaTasteRegister)
 
-    tart_size = ChainedChoiceField(parent_field='tart_type', ajax_url=reverse_lazy('torta_request_ajax_chained_models'),
-                                   label=u'Големина', required=True)
-
-    torta_cnt = ChainedTextInputField(parent_field='tart_size', ajax_url=reverse_lazy('torta_request_ajax_chained_models'),
-                                      label=u'Брой парчета', required=True, widget_attrs={'readonly': 'true'})
+#    torta_cnt = ChainedTextInputField(parent_field='tart_size', ajax_url=reverse_lazy('torta_request_ajax_chained_models'),
+#                                      label=u'Брой парчета', required=True, widget_attrs={'readonly': 'true'})
 
     #    price= ChainedTextInputField(parent_field='palnej', ajax_url=reverse_lazy('torta_request_ajax_chained_models'),
     #                                   label=u'Ед. Цена', required=False, widget_attrs={'readonly': 'true'})
@@ -110,7 +115,7 @@ class TortaRequestForm(ChainedChoicesModelForm):
         model = TortaRequest
         fields = '__all__'
         widgets = {
-            'code': TextInput(attrs={'style':'width:80px'}),
+            #'code': TextInput(attrs={'style':'width:80px'}),
             'nadpis': TextInput(attrs={'style':'width:500px'}),
             'notes': Textarea(attrs={'style':'width:500px'}),
             'dostavka_date': DateTimeWidget(options = {
@@ -119,7 +124,11 @@ class TortaRequestForm(ChainedChoicesModelForm):
                 'initialDate': (datetime.now() + timedelta(days=1)).strftime('%Y-%m-%d 09:00'),
                 'minView':1,
                 'hoursDisabled': '"0,1,2,3,4,5,6,7,8,10,12,14,16,18,20,21,22,23"',
-            })
+            }),
+            'code' : CodeFixingModelSelect2Widget(
+                 model=TortaPictureRegister,
+                 search_fields=['code__icontains']
+            )
         }
 
 class TortaRequestAdmin(ModelAdmin):
@@ -127,8 +136,8 @@ class TortaRequestAdmin(ModelAdmin):
     form = TortaRequestForm
     model = TortaRequest
 
-    list_display = ('code','tart_type','tart_name','palnej','torta_cnt','price','status', 'id', 'reg_date')
-    search_fields = ('tart_name','code',)
+    list_display = ('code','palnej','tart_size','full_price','status', 'id', 'reg_date')
+    search_fields = ('tart_name','code__code',)
     list_filter = (
         ('status', admin.ChoicesFieldListFilter),
         'reg_date',
@@ -150,7 +159,7 @@ class TortaRequestAdmin(ModelAdmin):
 
     fieldsets = (
         ('Торта', {
-            'fields': ('code', 'tart_type', 'tart_name', 'tart_size','torta_cnt', 'nadpis', 'palnej'),
+            'fields': ('code', 'tart_size', 'nadpis', 'palnej', 'full_price'),
         }),
 
         ('Доставка', {
@@ -166,10 +175,14 @@ class TortaRequestAdmin(ModelAdmin):
         }),
 
     )
-    readonly_fields = ['last_update_date', 'user_fk','id','reg_date']
+    readonly_fields = ['last_update_date', 'user_fk','id','reg_date', 'full_price']
 
     inlines = [ TortaRequestInline, ]
 
+    def full_price(self, obj):
+        if obj and obj.palnej and obj.tart_size:
+            return Decimal(round(obj.palnej.price * obj.tart_size.torta_cnt,2))
+    full_price.short_description = 'Цена на тортата'
 
     def get_form(self, request, obj=None, **kwargs):
 
@@ -219,11 +232,11 @@ admin.site.register(TortaRequest, TortaRequestAdmin)
 
 class TortaPictureRegisterAdmin(DjangoObjectActions, ModelAdmin):
 
-    search_fields = ('description','code','category')
+    search_fields = ('description','code','category__category')
     list_filter = (
         'category','tart_type'
     )
-    list_display = ('code__code','tart_type','category','description')
+    list_display = ('code','tart_type','category','description')
     readonly_fields = ['last_update_date', ]
     ordering = ['code']
     list_per_page = 50
