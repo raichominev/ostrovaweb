@@ -166,7 +166,7 @@ class TortaRequestAdmin(ModelAdmin):
         }),
 
         ('Доставка', {
-            'fields': ('dostavka_date', 'delivery_address', 'client_phone', 'status'),
+            'fields': ('dostavka_date', 'client_phone', 'status'),  # 'delivery_address'
         }),
 
         ('Допълнителна информация', {
