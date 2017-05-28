@@ -39,13 +39,19 @@
             eventLimit: true, // allow "more" link when too many events
             navLinks: true,
             eventOverlap : true,
+            slotEventOverlap: true,
             allDaySlot : false,
             minTime : "09:00",
             maxTime : "19:00",
             locale : 'bg',
             columnFormat: 'dddd',
-            contentHeight: 600,
-            slotDuration: '02:00:00' ,
+            contentHeight: 400,
+            aspectRatio: 5,
+            slotDuration: '00:20:00' ,
+            snapDuration: '02:00:00' ,
+            validRange: {
+                    start: '{% now "Y-m-d" %}'
+            },
             events: {
                 url: '/calendar_tarts_feed',
                data: function() {
@@ -61,11 +67,19 @@
                }
             },
             dayClick: function(date, jsEvent, view) {
+                var today= new Date();
+                tomorrow = new Date(today.getFullYear(), today.getMonth(), today.getDate()+1);
 
-                window.open('/admin/tartrequests/tortarequest/add?'+
-                 'delivery_date='+ date.format('YYYY-MM-DD HH:00') +
-                 '&club_fk=' + $('#id_club_field')[0].value
-                ,"_self");
+                if(date.get('hour') % 2 == 0) {
+                   date.add(1, 'hours');
+                }
+
+                if(date > tomorrow) {
+                    window.open('/admin/tartrequests/tortarequest/add?'+
+                     'dostavka_date='+ date.format('YYYY-MM-DD HH:00') +
+                     '&club_fk=' + $('#id_club_field')[0].value
+                    ,"_self");
+                }
 
             },
 

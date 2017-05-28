@@ -21,17 +21,17 @@ def calendar_tart_data(request):
     club_id = request.GET.get('club_id', None)
 
     if club_id:
-        tortarequests=TortaRequest.objects.filter(delivery_date__gt=start_date,delivery_date__lt=end_date,club_fk=club_id)
+        tortarequests=TortaRequest.objects.filter(dostavka_date__gt=start_date,dostavka_date__lt=end_date,club_fk=club_id)
     else:
-        tortarequests=TortaRequest.objects.filter(delivery_date__gt=start_date,delivery_date__lt=end_date)
+        tortarequests=TortaRequest.objects.filter(dostavka_date__gt=start_date,dostavka_date__lt=end_date)
 
     json_ins = []
     for tortarequest in tortarequests:
         inp = {}
 
         inp['title'] = 'Заявка:' + str(tortarequest)
-        inp['start'] = datetime.strftime(tortarequest.delivery_date,'%Y-%m-%dT%H:%M')
-        inp['end'] = datetime.strftime(tortarequest.delivery_date + timedelta(hour=1),'%Y-%m-%dT%H:%M')
+        inp['start'] = datetime.strftime(tortarequest.dostavka_date,'%Y-%m-%dT%H:%M')
+        inp['end'] = datetime.strftime(tortarequest.dostavka_date + timedelta(hours=1),'%Y-%m-%dT%H:%M')
         inp['id'] = tortarequest.id
         inp['url'] = '/admin/tartrequests/tortarequest/'+str(tortarequest.id)+'/change/'
         inp['color'] = '#33ccff'

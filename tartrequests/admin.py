@@ -29,7 +29,8 @@ class TortaRequestInline(admin.StackedInline):
         }),
     )
     readonly_fields = ['last_update_date',]
-    extra = 0
+    extra = 3
+    max_num = 3
 
 # class TortaRequestTasteForm(ChainedChoicesModelForm):
 #     torta_rq_fk = forms.CharField()
