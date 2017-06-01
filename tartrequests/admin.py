@@ -131,7 +131,7 @@ class TortaRequestForm(ChainedChoicesModelForm):
             'code' : CodeFixingModelSelect2Widget(
                  model=TortaPictureRegister,
                  search_fields=['code__icontains','category__category__icontains', 'description__icontains'],
-                 attrs={'style':'width:280px'},
+                 attrs={'style':'width:80px'},
             )
         }
 
