@@ -23,7 +23,5 @@ urlpatterns = [
 
     url(r'^admin/ajax/torta-request-chained/$', TartRequestAjaxChainedView.as_view(), name='torta_request_ajax_chained_models'),
 
-    url(r'^report_builder/', include('report_builder.urls')),
-
     url(r'^select2/', include('django_select2.urls')),
 ]
