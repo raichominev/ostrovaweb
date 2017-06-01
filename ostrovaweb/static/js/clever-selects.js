@@ -39,7 +39,7 @@ $(document).ready(function() {
                         txt += j[i][1] + ' ';
                     }
                     txt = txt.replace(/ +$/, '');  //strip last space, which is necessary for numeric fields
-                    valuefield.src = txt;
+                    valuefield..attr('src', txt);
 
                 } else {
                     var txt = '';
