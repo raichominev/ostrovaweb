@@ -1,3 +1,29 @@
+
+
 <div>
-    <img src="{{ MEDIA_URL }}{{original.filename}}" height="600" width="850"/>
+    <span>Тип:</span>
+    <input id="id_tart_type" name="tart_type" disabled=""/>
+    <span id=>Тип:</span>
+    <br>
+    <span>Категория:</span>
+    <input id="id_tart_category" name="tart_category" disabled=""/>
+    <br>
+    <img id="tart_picture_image" src="{{ MEDIA_URL }}{{original.filename}}" height="600" width="850"/>
 </div>
+
+<script type="text/javascript">
+        //<![CDATA[
+            $(document).ready(function(){
+                var parent_field = $("#id_code");
+                parent_field.addClass('chained-parent-field-img');
+                var chained_ids = parent_field.attr('chained_ids');
+                if(chained_ids == null)
+                    parent_field.attr('chained_ids', "tart_picture_image");
+                else
+                    parent_field.attr('chained_ids', chained_ids + ",tart_picture_image");
+
+                parent_field.attr('chained_ids', chained_ids + ",id_tart_type");
+                parent_field.attr('chained_ids', chained_ids + ",id_tart_category");
+            });
+        //]]>
+</script>
