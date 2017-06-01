@@ -1,16 +1,17 @@
 <div style="position:absolute">
     <input type="text" id="id_tart_type" name="zz_tart_type"
-           style="position:relative;top:14px;right: -760px; width: 80px; z-index:99"
+           style="position:relative;top:-70px;right: -320px; width: 80px; z-index:99"
            ajax_url="/admin/ajax/torta-request-chained/"
            disabled=""/>
     <input type="text" id="id_tart_category" name="zz_tart_category"
            ajax_url="/admin/ajax/torta-request-chained/"
-           style="position:relative;top:14px;right: -760px; width: 120px; z-index:99"
+           style="position:relative;top:-70px;right: -320px; width: 120px; z-index:99"
            disabled=""/>
     <img src="{{ MEDIA_URL }}{{original.code.filename}}"
-         id = "tart_picture_image"
+         id = "id_tart_picture_image"
+         name="zz_tart_picture_image"
          ajax_url="/admin/ajax/torta-request-chained/"
-         style="position:relative;top:18px;right: -560px; width: 265px; height: 188px;z-index:99"
+         style="position:relative;top:12px;right: -330px; width: 265px; height: 188px;z-index:99"
     />
 </div>
 
@@ -19,11 +20,12 @@
             $(document).ready(function(){
                 var parent_field = $("#id_code");
                 parent_field.addClass('chained-parent-field');
+
                 var chained_ids = parent_field.attr('chained_ids');
-                if(chained_ids == null)
-                    parent_field.attr('chained_ids', "tart_picture_image,id_tart_type,id_tart_category");
-                else
-                    parent_field.attr('chained_ids', chained_ids + ",tart_picture_image,id_tart_type,id_tart_category");
+                if(chained_ids == null) chained_ids = '';
+                else chained_ids = chained_ids + ',';
+
+                parent_field.attr('chained_ids', chained_ids + "id_tart_picture_image,id_tart_type,id_tart_category");
             });
         //]]>
 </script>
