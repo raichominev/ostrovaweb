@@ -57,7 +57,7 @@ class TartRequestAjaxChainedView(ChainedSelectChoicesView):
 
         if self.field == 'zz_tart_picture_image':
             tortaType = TortaPictureRegister.objects.get(id=self.parent_value)
-            url = settings.MEDIA_URL + tortaType.filename
+            url = settings.MEDIA_URL + tortaType.filename.name
             return tuple(zip((str(url),), (str(url),)))
 
         if self.field == 'palnej':

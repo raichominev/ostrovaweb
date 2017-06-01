@@ -38,7 +38,7 @@ class ChainedTextInput(TextInput):
         //<![CDATA[
             $(document).ready(function(){
                 var parent_field = $("#%(parentfield_id)s");
-                parent_field.addClass('chained-parent-field-txt');
+                parent_field.addClass('chained-parent-field');
                 var chained_ids = parent_field.attr('chained_ids');
                 if(chained_ids == null)
                     parent_field.attr('chained_ids', "%(chained_id)s");
@@ -116,7 +116,7 @@ class ChainedNumberInput(NumberInput):
         //<![CDATA[
             $(document).ready(function(){
                 var parent_field = $("#%(parentfield_id)s");
-                parent_field.addClass('chained-parent-field-txt');
+                parent_field.addClass('chained-parent-field');
                 var chained_ids = parent_field.attr('chained_ids');
                 if(chained_ids == null)
                     parent_field.attr('chained_ids', "%(chained_id)s");
