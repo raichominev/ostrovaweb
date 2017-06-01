@@ -61,7 +61,7 @@ $(document).ready(function() {
                     txt += j[i][1] + ' ';
                 }
                 txt = txt.replace(/ +$/, '');  //strip last space, which is necessary for numeric fields
-                valuefield.val(txt);
+                valuefield.src = txt;
                 valuefield.trigger('change');
                 valuefield.trigger("liszt:updated"); // support for chosen versions < 1.0.0
                 valuefield.trigger("chosen:updated"); // support for chosen versions >= 1.0.0
