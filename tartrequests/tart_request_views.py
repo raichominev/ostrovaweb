@@ -10,6 +10,7 @@ from django.http import HttpResponse
 from django.utils.cache import add_never_cache_headers
 from django.views.generic.detail import BaseDetailView
 
+from ostrovaweb import settings
 from ostrovaweb.utils import fix_code, fix_code_reverse
 from tartrequests.models import TortaPictureRegister, TortaPieceCoding, TortaRequest, TortaTasteRegister
 
@@ -48,11 +49,16 @@ class TartRequestAjaxChainedView(ChainedSelectChoicesView):
 
         if self.field == 'zz_tart_type':
             tortaType = TortaPictureRegister.objects.get(id=self.parent_value)
-            return tuple(zip(tortaType.tart_type, tortaType.tart_type))
+            return tuple(zip((tortaType.tart_type,), (tortaType.tart_type,)))
 
         if self.field == 'zz_tart_category':
             tortaType = TortaPictureRegister.objects.get(id=self.parent_value)
-            return tuple(zip(str(tortaType.category), str(tortaType.category)))
+            return tuple(zip((str(tortaType.category),), (str(tortaType.category),)))
+
+        if self.field == 'tart_picture_image':
+            tortaType = TortaPictureRegister.objects.get(id=self.parent_value)
+            url = settings.MEDIA_URL + tortaType.filename
+            return tuple(zip((str(url),), (str(url),)))
 
         if self.field == 'palnej':
             pieceCoding = TortaPieceCoding.objects.get(id=self.parent_value)
