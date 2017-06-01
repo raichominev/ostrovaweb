@@ -24,7 +24,7 @@ class TortaRequest(models.Model):
     code = models.ForeignKey('TortaPictureRegister', verbose_name="Кат.No:Тип:Категория")
     tart_size = models.ForeignKey('TortaPieceCoding', db_column='TART_SIZE', blank=False, null=True, verbose_name="Големина")
     palnej = models.ForeignKey('TortaTasteRegister',db_column="PALNEJ",  verbose_name="Пълнеж")
-    nadpis = models.CharField(db_column='NADPIS', max_length=150, blank=True, verbose_name="Надпис")
+    nadpis = models.CharField(db_column='NADPIS', max_length=150, blank=True, verbose_name="Надпис", default='Честит рожден ден')
 
     notes = models.TextField(db_column='NOTES', max_length=3000, blank=True, verbose_name="Забележка")
 

@@ -119,8 +119,8 @@ class TortaRequestForm(ChainedChoicesModelForm):
         model = TortaRequest
         fields = '__all__'
         widgets = {
-            'nadpis': Textarea(attrs={'rows':2,'style':'width:300px;height:40px'}),
-            'notes': Textarea(attrs={'style':'width:500px'}),
+            'nadpis': Textarea(attrs={'rows':1,'style':'width:300px;height:40px'}),
+            'notes': Textarea(attrs={'style':'height:200px;width:500px'}),
             'dostavka_date': DateTimeWidget(options = {
                 'format': 'yyyy-mm-dd hh:ii',
                 'startDate': (datetime.now()+ timedelta(days=1)).strftime('%Y-%m-%d'),
@@ -166,16 +166,12 @@ class TortaRequestAdmin(ModelAdmin):
             'fields': ('code', 'tart_size', 'nadpis', 'palnej', 'full_price'),
         }),
 
-        ('Доставка', {
-            'fields': ('dostavka_date', 'status'),  # 'client_phone', 'delivery_address'
-        }),
-
         ('Допълнителна информация', {
             'fields': ( 'notes', ),
         }),
 
         ('Служебна информация', {
-            'fields': ( 'reg_date','last_update_date', 'user_fk', 'club_fk'),
+            'fields': ( 'dostavka_date', 'reg_date','last_update_date', 'user_fk', 'club_fk', 'status'),
         }),
 
     )
