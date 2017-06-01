@@ -133,7 +133,7 @@ class TortaPictureRegister(models.Model):
         verbose_name_plural = u"Видове торти"
 
     def __str__(self):
-        return str(self.code) + ':' + str(self.short_tart_type(self.tart_type)) + ':' + str(self.category)
+        return str(self.code) # + ':' + str(self.short_tart_type(self.tart_type)) + ':' + str(self.category)
 
 
 class TortaPieceCoding(models.Model):

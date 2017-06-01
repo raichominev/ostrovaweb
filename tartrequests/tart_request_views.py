@@ -46,6 +46,14 @@ class TartRequestAjaxChainedView(ChainedSelectChoicesView):
 
             return tuple(zip(vals_list, descr_list))
 
+        if self.field == 'zz_tart_type':
+            tortaType = TortaPictureRegister.objects.get(id=self.parent_value)
+            return tuple(zip(tortaType.tart_type, tortaType.tart_type))
+
+        if self.field == 'zz_tart_category':
+            tortaType = TortaPictureRegister.objects.get(id=self.parent_value)
+            return tuple(zip(str(tortaType.category), str(tortaType.category)))
+
         if self.field == 'palnej':
             pieceCoding = TortaPieceCoding.objects.get(id=self.parent_value)
             tastes =  TortaTasteRegister.objects.filter(level__gte = pieceCoding.levels).order_by('id')
