@@ -1,5 +1,5 @@
 {
-  "engines": {
+ /* "engines": {
     "node": "latest"
   },
   "dependencies": {
@@ -7,5 +7,5 @@
   },
   "scripts": {
      "postinstall": "bower install"
-  }
+  }*/
 }

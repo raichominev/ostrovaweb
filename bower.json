@@ -1,5 +1,5 @@
 {
-  "name": "ostrovaqweb",
+/*  "name": "ostrovaqweb",
   "version": "0.0.1",
   "dependencies": {
     "jquery":"latest",
@@ -7,5 +7,5 @@
     "bootstrap":"latest",
     "fullcalendar":"latest"
   },
-  "private": true
+  "private": true*/
 }

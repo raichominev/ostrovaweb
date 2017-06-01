@@ -42,7 +42,7 @@ $(document).ready(function() {
     });
 
 
-    $.fn.loadChildText = function(child) {
+    $.fn.loadChildImage = function(child) {
         var valuefield = child;
         var ajax_url = valuefield.attr('ajax_url');
 

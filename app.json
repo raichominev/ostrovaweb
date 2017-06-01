@@ -4,7 +4,7 @@
   "repository": "https://github.com/raichominev/ostrovaweb",
   "keywords": ["python", "django"],
   "scripts": {
-    "postdeploy": "python manage.py migrate --noinput",
+    "postdeploy": "python manage.py migrate --noinput"
   },
   "addons": [
     "heroku-postgresql"
@@ -17,7 +17,7 @@
     },
     "DISABLE_COLLECTSTATIC": {
       "description": "Don't run python manage.py collectstatic --noinput on deploy",
-      "value": "1"
+      "value": "0"
     }
   }
 }
