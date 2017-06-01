@@ -55,7 +55,7 @@ INSTALLED_APPS = [
     #'mod_wsgi.server',
 
     # Report builder
-    'report_builder',
+    #'report_builder',
 
     # Object history
     'reversion',
