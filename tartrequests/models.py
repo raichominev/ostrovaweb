@@ -52,6 +52,12 @@ class TortaRequest(models.Model):
     #faktura_no = models.CharField(db_column='FAKTURA_NO', max_length=100, blank=True)
     #faktura_date = models.DateTimeField(db_column='FAKTURA_DATE', blank=True, null=True, verbose_name="Дата фактура")
 
+    def actual_picture(self):
+        if self.tortarequestpicture_set.all().exists():
+            return self.tortarequestpicture_set.first().filename
+        else:
+            return self.code.filename
+
     class Meta:
         managed = True
         db_table = 'tart_req'
