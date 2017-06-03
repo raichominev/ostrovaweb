@@ -28,7 +28,7 @@
                 parent_field.attr('chained_ids', chained_ids + "id_tart_picture_image,id_tart_type,id_tart_category");
 
             });
-            $(document).load(function(){
+            $(window).load(function(){
                 $('#id_code').loadChildChoices($('#id_tart_type'));
                 $('#id_code').loadChildChoices($('#id_tart_category'));
             });
