@@ -178,7 +178,7 @@ class TortaRequestAdmin(ModelAdmin):
         }),
 
         ('Служебна информация', {
-            'fields': ( 'dostavka_date', 'reg_date','last_update_date', 'user_fk', 'club_fk', 'status'),
+            'fields': ( 'dostavka_date','dostavka_time', 'reg_date','last_update_date', 'user_fk', 'club_fk', 'status'),
         }),
 
     )
