@@ -133,7 +133,7 @@ class TortaRequestForm(ChainedChoicesModelForm):
             'dostavka_time': TimeWidget(options = {
                 'format': 'hh:ii',
 #                'initialDate': '09:00',
-                'minView':0,
+                'minView':1,
                 'maxView':2,
                 'hoursDisabled': '"0,1,2,3,4,5,6,7,8,10,12,14,16,18,20,21,22,23"',
                 'language':'bg'
