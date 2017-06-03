@@ -11,7 +11,7 @@
          id = "id_tart_picture_image"
          name="zz_tart_picture_image"
          ajax_url="/admin/ajax/torta-request-chained/"
-         style="position:relative;top:12px;right: -330px; width: 265px; height: 188px;z-index:99"
+         style="position:relative;top:8px;right: -330px; width: 265px; height: 188px;z-index:99"
     />
 </div>
 
@@ -28,6 +28,8 @@
                 parent_field.attr('chained_ids', chained_ids + "id_tart_picture_image,id_tart_type,id_tart_category");
 
             });
+
+            //will load after *all* document.ready functions, including the clever_selects initializations, loaded at the end of the page
             $(window).load(function(){
                 $('#id_code').loadChildChoices($('#id_tart_type'));
                 $('#id_code').loadChildChoices($('#id_tart_category'));
