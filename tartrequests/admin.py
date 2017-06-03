@@ -128,6 +128,7 @@ class TortaRequestForm(ChainedChoicesModelForm):
                 'startDate': (datetime.now()+ timedelta(days=1)).strftime('%Y-%m-%d'),
                 'initialDate': (datetime.now() + timedelta(days=1)).strftime('%Y-%m-%d'),
                 'minView':2,
+                'language':'bg'
             }),
             'dostavka_time': TimeWidget(options = {
                 'format': 'hh:ii',
@@ -135,6 +136,7 @@ class TortaRequestForm(ChainedChoicesModelForm):
                 'minView':0,
                 'maxView':2,
                 'hoursDisabled': '"0,1,2,3,4,5,6,7,8,10,12,14,16,18,20,21,22,23"',
+                'language':'bg'
             }),
             'code' : CodeFixingModelSelect2Widget(
                  model=TortaPictureRegister,
