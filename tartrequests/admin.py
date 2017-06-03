@@ -120,7 +120,7 @@ class TortaRequestForm(ChainedChoicesModelForm):
         fields = '__all__'
         widgets = {
             'nadpis': Textarea(attrs={'rows':1,'style':'width:300px;height:40px'}),
-            'notes': Textarea(attrs={'style':'height:200px;width:500px'}),
+            'notes': Textarea(attrs={'rows':2, 'style':'height:100px;width:500px'}),
             'dostavka_date': DateTimeWidget(options = {
                 'format': 'yyyy-mm-dd hh:ii',
                 'startDate': (datetime.now()+ timedelta(days=1)).strftime('%Y-%m-%d'),
