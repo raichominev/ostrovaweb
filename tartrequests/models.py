@@ -26,7 +26,7 @@ class TortaRequest(models.Model):
     palnej = models.ForeignKey('TortaTasteRegister',db_column="PALNEJ",  verbose_name="Пълнеж")
     nadpis = models.CharField(db_column='NADPIS', max_length=150, blank=True, verbose_name="Надпис", default='Честит рожден ден')
 
-    notes = models.TextField(db_column='NOTES', max_length=3000, blank=True, verbose_name="Забележка")
+    notes = models.TextField(db_column='NOTES', max_length=3000, null=True, blank=True, verbose_name="Забележка")
 
     dostavka_date = models.DateTimeField(db_column='DOSTAVKA_DATE', blank=False, null=True, verbose_name="Дата доставка")
     delivery_address  = models.TextField(db_column='DELIVERY_ADDRESS', max_length=1000, blank=True, null=True, verbose_name="Адрес на доставка")
