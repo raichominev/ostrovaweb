@@ -21,14 +21,15 @@ class TortaDeliveryAddress(models.Model):
 class TortaRequest(models.Model):
     id = models.AutoField(db_column='ID', primary_key = True, verbose_name="Рег. Номер  ")
 
-    code = models.ForeignKey('TortaPictureRegister', verbose_name="Кат.No:Тип:Категория")
+    code = models.ForeignKey('TortaPictureRegister', verbose_name="Кат.No.")
     tart_size = models.ForeignKey('TortaPieceCoding', db_column='TART_SIZE', blank=False, null=True, verbose_name="Големина")
     palnej = models.ForeignKey('TortaTasteRegister',db_column="PALNEJ",  verbose_name="Пълнеж")
     nadpis = models.CharField(db_column='NADPIS', max_length=150, blank=True, verbose_name="Надпис", default='Честит рожден ден')
 
     notes = models.TextField(db_column='NOTES', max_length=3000, null=True, blank=True, verbose_name="Забележка")
 
-    dostavka_date = models.DateTimeField(db_column='DOSTAVKA_DATE', blank=False, null=True, verbose_name="Дата доставка")
+    dostavka_date = models.DateField(blank=False, null=True, verbose_name="Дата доставка")
+    dostavka_time = models.TimeField(blank=False, null=True, verbose_name="Час")
     delivery_address  = models.TextField(db_column='DELIVERY_ADDRESS', max_length=1000, blank=True, null=True, verbose_name="Адрес на доставка")
     client_phone = models.CharField(db_column='CLIENT_PHONE', max_length=50, blank=True, verbose_name="Телефон")
 

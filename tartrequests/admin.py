@@ -3,10 +3,12 @@ import os
 from datetime import datetime, timedelta
 
 from decimal import Decimal
+
+from adminextensions.list_display import related_field
 from django_object_actions import DjangoObjectActions
 from django_select2.forms import ModelSelect2Widget
 
-from datetimewidget.widgets import DateTimeWidget
+from datetimewidget.widgets import DateTimeWidget, TimeWidget, DateWidget
 from django.contrib import admin
 from django.contrib.admin import ModelAdmin
 from django.core.files.storage import default_storage
@@ -121,10 +123,15 @@ class TortaRequestForm(ChainedChoicesModelForm):
         widgets = {
             'nadpis': Textarea(attrs={'rows':1,'style':'width:340px;height:20px'}),
             'notes': Textarea(attrs={'rows':2, 'style':'height:50px;width:500px'}),
-            'dostavka_date': DateTimeWidget(options = {
-                'format': 'yyyy-mm-dd hh:ii',
+            'dostavka_date': DateWidget(options = {
+                'format': 'yyyy-mm-dd',
                 'startDate': (datetime.now()+ timedelta(days=1)).strftime('%Y-%m-%d'),
-                'initialDate': (datetime.now() + timedelta(days=1)).strftime('%Y-%m-%d 09:00'),
+                'initialDate': (datetime.now() + timedelta(days=1)).strftime('%Y-%m-%d'),
+                'minView':1,
+            }),
+            'dostavka_time': TimeWidget(options = {
+                'format': 'hh:ii',
+                'initialDate': '09:00',
                 'minView':1,
                 'hoursDisabled': '"0,1,2,3,4,5,6,7,8,10,12,14,16,18,20,21,22,23"',
             }),
@@ -140,7 +147,7 @@ class TortaRequestAdmin(ModelAdmin):
     form = TortaRequestForm
     model = TortaRequest
 
-    list_display = ('code','palnej','tart_size','full_price','status', 'id', 'reg_date')
+    list_display = ('code',related_field('code__tart_type', None, 'Вид'),related_field('code__category', None, 'Описание'),'palnej','tart_size','full_price','status', 'dostavka_date', 'dostavka_time', 'club_fk', 'notes')
     search_fields = ('tart_name','code__code',)
     list_filter = (
         ('status', admin.ChoicesFieldListFilter),
@@ -182,7 +189,7 @@ class TortaRequestAdmin(ModelAdmin):
     def full_price(self, obj):
         if obj and obj.palnej and obj.tart_size:
             return Decimal(round(obj.palnej.price * obj.tart_size.torta_cnt,2))
-    full_price.short_description = 'Цена на тортата'
+    full_price.short_description = 'Цена'
 
     def get_form(self, request, obj=None, **kwargs):
 
