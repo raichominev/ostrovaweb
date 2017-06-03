@@ -150,7 +150,7 @@ class TortaPieceCoding(models.Model):
 
     def save(self, force_insert=False, force_update=False, using=None,
              update_fields=None):
-        self.tart_size = str(self.levels) + " ет. " + str(self.torta_cnt) + ' парчета'
+        self.tart_size = str(self.levels) + " ет. " + "%02d" % self.torta_cnt + ' парчета'
         super(TortaPieceCoding, self).save(force_insert, force_update, using, update_fields)
 
     class Meta:
