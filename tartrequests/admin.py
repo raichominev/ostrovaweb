@@ -135,7 +135,7 @@ class TortaRequestForm(ChainedChoicesModelForm):
 #                'initialDate': '09:00',
                 'minView':1,
                 'maxView':2,
-                'hoursDisabled': '"0,1,2,3,4,5,6,7,8,10,12,14,16,18,20,21,22,23"',
+                'hoursDisabled': '"0,1,2,3,4,5,6,7,8,20,21,22,23"',
                 'language':'bg'
             }),
             'code' : CodeFixingModelSelect2Widget(
@@ -258,6 +258,10 @@ class TortaPictureRegisterAdmin(DjangoObjectActions, ModelAdmin):
     def reload_pics_from_storage(self, request, obj):
 
         for categoty_folder in default_storage.listdir(settings.TARTIMAGES_STORAGE)[0]:
+
+            if categoty_folder == 'ВЪНШНИ ЗАЯВКИ':
+                continue
+
             if not TortaPictureCategory.objects.filter(category=categoty_folder).exists():
                 dbCat = TortaPictureCategory()
                 dbCat.category = categoty_folder
