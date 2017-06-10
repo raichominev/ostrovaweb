@@ -229,7 +229,7 @@ class TortaRequestAdmin(ModelAdmin):
     def get_queryset(self, request):
         qs = super(TortaRequestAdmin, self).get_queryset(request)
         if request.user.employee.club_m2m.exists():
-            return qs.filter(club_fk__in = request.user.employee.club_m2m)
+            return qs.filter(club_fk__in = request.user.employee.club_m2m.all())
 
         return qs
 
