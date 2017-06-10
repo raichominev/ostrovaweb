@@ -3,6 +3,8 @@ import json
 import logging
 
 from django.contrib import messages
+from django.contrib.auth.mixins import LoginRequiredMixin
+from django.db.models import Q
 
 from clever_select_enhanced.views import ChainedSelectChoicesView
 from django.core.serializers.json import DjangoJSONEncoder
@@ -18,7 +20,7 @@ from tartrequests.models import TortaPictureRegister, TortaPieceCoding, TortaReq
 def get_tart_model(id):
     return TortaPictureRegister.objects.get(id=id)
 
-class TartRequestAjaxChainedView(ChainedSelectChoicesView):
+class TartRequestAjaxChainedView(LoginRequiredMixin, ChainedSelectChoicesView):
     """
     View to handle the ajax request for the field options.
     """
@@ -42,14 +44,12 @@ class TartRequestAjaxChainedView(ChainedSelectChoicesView):
         if self.field == 'tart_size':
             tortaType = TortaPictureRegister.objects.get(id=self.parent_value)
 
-            if request.user.emplyee.club_m2m.exists():
-                clubs = request.user.emplyee.club_m2m.all()
+            if request.user.employee.club_m2m.exists():
+                clubs = request.user.employee.club_m2m.all()
             else:
                 clubs = Club.objects.all()
 
-            pieceCodings =  TortaPieceCoding.objects.filter(tart_type = tortaType.tart_type,
-                                                            club_m2m__in=clubs
-                                                            ).order_by('tart_size')
+            pieceCodings =  TortaPieceCoding.objects.filter(tart_type = tortaType.tart_type).exclude(~Q(club_m2m__in=clubs)).order_by('tart_size')
 
             vals_list = [x.id for x in pieceCodings]
             descr_list = [x.tart_size for x in pieceCodings]

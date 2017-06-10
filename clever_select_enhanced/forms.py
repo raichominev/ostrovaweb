@@ -1,3 +1,7 @@
+from django.core.urlresolvers import resolve
+from django.http import HttpRequest
+
+from ostrovaweb.get_current_request import get_current_user
 from ostrovaweb.utils import nvl
 
 __author__ = 'Erik Telepovsky'
@@ -47,6 +51,8 @@ class ChainedChoicesMixin(object):
                     self.fields[oldest_parent_field_name].initial = getattr(self.instance, '%s' % oldest_parent_field_name)
                 except AttributeError:
                     pass
+                except KeyError:
+                    pass
 
             self.set_choices_via_ajax()
 
@@ -77,9 +83,9 @@ class ChainedChoicesMixin(object):
                         parent_value = kwargs.get(field.parent_field, None)
                         field_value = kwargs.get(field_name, None)
 
-                        if hasattr(field, 'additional_related_field') and additional_related_field:
+                        if hasattr(field, 'additional_related_field'):
                             additional_related_field = field.additional_related_field
-                            if '__' in additional_related_field:
+                            if additional_related_field and '__' in additional_related_field:
                                 # handle reference from inline field
                                 additional_related_value = kwargs.get('%s' % (field.additional_related_field.split('__')[-1]), None)
                             else:
@@ -99,7 +105,7 @@ class ChainedChoicesMixin(object):
                             additional_related_field = field.additional_related_field
 
                             # a rather clumsy way to support master field lookup
-                            if '__' in additional_related_field:
+                            if additional_related_field and '__' in additional_related_field:
                                 # handle reference from inline field
                                 additional_related_value = kwargs.get('%s' % (field.additional_related_field.split('__')[-1]), None)
                             else:
@@ -146,17 +152,30 @@ class ChainedChoicesMixin(object):
                         'add_rel_value': nvl(additional_related_value,'')
 
                     }
-                    data = c.get(url, params)
+
+                    view, args, kwargs = resolve(field.ajax_url)
+                    request = HttpRequest()
+                    request.method = 'GET'
+                    request.GET.update(params)
+                    request.user = get_current_user()
+
+                    kwargs['request'] = request
+                    data = view(*args, **kwargs)
+
+                    # data = c.get(url, params)
 
                     try:
-                        field.choices = field.choices + json.loads(data.content.decode('utf-8'))
-                    except ValueError:
-#                        raise
-                        raise ValueError(u'Data returned from ajax request (url=%(url)s, params=%(params)s) could not be deserialized to Python object. %(data)s' % {
-                            'url': url,
-                            'params': params,
-                            'data':str(data.content)
-                        })
+                        field.choices = field.choices + json.loads(data.content)
+                    except:
+                        try:
+                            field.choices = field.choices + json.loads(data.content.decode('utf-8'))
+                        except ValueError:
+    #                        raise
+                            raise ValueError(u'Data returned from ajax request (url=%(url)s, params=%(params)s) could not be deserialized to Python object. %(data)s' % {
+                                'url': url,
+                                'params': params,
+                                'data': '' # str(data.content.decode('utf-8'))
+                            })
 
                 field.initial = field_value
 
