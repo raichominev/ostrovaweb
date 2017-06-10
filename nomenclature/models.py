@@ -34,7 +34,7 @@ class Saloon(models.Model):
 
 class Employee(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
-    club_m2m = models.ManyToManyField('Club', null=True, blank=True, verbose_name="Клуб")
+    club_m2m = models.ManyToManyField('Club', verbose_name="Клуб")
 
     class Meta:
         managed = True
