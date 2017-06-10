@@ -337,10 +337,13 @@ class TortaPieceCodingAdmin(ModelAdmin):
     list_filter = (
         'tart_type', 'levels', 'torta_cnt'
     )
-    fields = ('tart_type', 'levels', 'torta_cnt')
+    fields = ('tart_type', 'levels', 'torta_cnt', 'club_m2m')
     list_display = ('tart_size','tart_type', 'levels', 'torta_cnt')
     list_editable = ('tart_type', 'levels', 'torta_cnt')
     ordering = ['tart_type', 'levels', 'torta_cnt']
+
+    filter_horizontal = ('club_m2m', )
+
     list_per_page = 50
 
 admin.site.register(TortaPieceCoding, TortaPieceCodingAdmin)
