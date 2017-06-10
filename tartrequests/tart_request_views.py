@@ -10,6 +10,7 @@ from django.http import HttpResponse
 from django.utils.cache import add_never_cache_headers
 from django.views.generic.detail import BaseDetailView
 
+from nomenclature.models import Club
 from ostrovaweb import settings
 from ostrovaweb.utils import fix_code, fix_code_reverse
 from tartrequests.models import TortaPictureRegister, TortaPieceCoding, TortaRequest, TortaTasteRegister
@@ -40,7 +41,15 @@ class TartRequestAjaxChainedView(ChainedSelectChoicesView):
 
         if self.field == 'tart_size':
             tortaType = TortaPictureRegister.objects.get(id=self.parent_value)
-            pieceCodings =  TortaPieceCoding.objects.filter(tart_type = tortaType.tart_type).order_by('tart_size')
+
+            if request.user.emplyee.club_m2m.exists():
+                clubs = request.user.emplyee.club_m2m.all()
+            else:
+                clubs = Club.objects.all()
+
+            pieceCodings =  TortaPieceCoding.objects.filter(tart_type = tortaType.tart_type,
+                                                            club_m2m__in=clubs
+                                                            ).order_by('tart_size')
 
             vals_list = [x.id for x in pieceCodings]
             descr_list = [x.tart_size for x in pieceCodings]
