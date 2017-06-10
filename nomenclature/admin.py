@@ -95,6 +95,7 @@ class EmployeeInline(admin.StackedInline):
     model = Employee
     can_delete = False
     verbose_name_plural = 'Допълнителни данни за служител'
+    filter_horizontal = ('club_m2m', )
 
 # Define a new User admin
 class EmployeeAdmin(UserAdmin):

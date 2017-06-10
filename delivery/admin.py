@@ -68,9 +68,12 @@ class DeliveryAdmin(CompareVersionAdmin):
 
 
         # if club is specified for the current user (in the user model), do not allow choosing another club
-        if request.user.employee.club_fk:
-            form.base_fields['club_fk'].initial = request.user.employee.club_fk
-            form.base_fields['club_fk'].widget.attrs.update({'readonly':'True','style':'pointer-events:none'})  # simulates readonly on the browser with the help of css
+        if request.user.employee.club_m2m:
+            if request.user.employee.club_m2m.all().count() == 1:
+                form.base_fields['club_fk'].initial = request.user.employee.club_m2m.all()[0]
+                form.base_fields['club_fk'].widget.attrs.update({'readonly':'True','style':'pointer-events:none'})  # simulates readonly on the browser with the help of css
+            else:
+                form.base_fields['club_fk'].queryset = request.user.employee.club_m2m
             #form.base_fields['club_fk'].disabled = True  - does not work well on add new operation's on save
 
         return form
@@ -161,8 +164,8 @@ class DeliveryAdmin(CompareVersionAdmin):
         obj.delivery_date = datetime.now()
         obj.last_update_date = datetime.now()
         obj.user = request.user
-        if request.user.employee.club_fk:
-            obj.club_fk = request.user.employee.club_fk
+        if request.user.employee.club_m2m.all().count() == 1:
+            obj.club_fk = request.user.employee.club_m2m.all()[0]
 
         super(DeliveryAdmin, self).save_model(request, obj, form, change)
 

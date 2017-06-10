@@ -50,9 +50,13 @@ class Form_Club(forms.Form):
 def calendar_view(request):
     context = RequestContext(request)
     form_club = Form_Club()
-    if request.user.employee.club_fk:
-        form_club.fields['club_field'].initial = request.user.employee.club_fk
-        form_club.fields['club_field'].widget.attrs.update({'readonly':'True','style':'pointer-events:none'})  # simulates readonly on the browser with the help of css
+    if request.user.employee.club_m2m:
+        if request.user.employee.club_m2m.all().count() == 1:
+            form_club.fields['club_field'].initial = request.user.employee.club_m2m.all()[0]
+            form_club.fields['club_field'].widget.attrs.update({'readonly':'True','style':'pointer-events:none'})  # simulates readonly on the browser with the help of css
+        else:
+            form_club.fields['club_field'].queryset = request.user.employee.club_m2m
+
     calendar_data={}
     calendar_data['form'] = form_club
     return render_to_response("calendar.html", calendar_data,context)

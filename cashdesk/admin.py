@@ -37,8 +37,8 @@ class Cashdesk_detail_expenseAdmin(admin.ModelAdmin):
     def get_queryset(self, request):
         qs = super(Cashdesk_detail_expenseAdmin, self).get_queryset(request)
         qs = qs.filter(cashdesk__status__in = ('OPENED','JUSTCLOSED',))
-        if request.user.employee.club_fk is not None:
-            qs.filter(cashdesk__club_fk = request.user.employee.club_fk)
+        if request.user.employee.club_m2m:
+            qs.filter(cashdesk__club_fk__in=request.user.employee.club_m2m)
         return qs
 
     def get_club_name(self, obj):
@@ -68,8 +68,8 @@ class Cashdesk_detail_transferAdmin(admin.ModelAdmin):
         qs = super(Cashdesk_detail_transferAdmin, self).get_queryset(request)
         qs = qs.filter(cashdesk__status__in = ('OPENED','JUSTCLOSED',))
         qs = qs.filter(transfer_club_fk__isnull=False)
-        if request.user.employee.club_fk is not None:
-            qs.filter(cashdesk__club_fk = request.user.employee.club_fk)
+        if request.user.employee.club_fk:
+            qs.filter(cashdesk__club_fk__in = request.user.employee.club_m2m)
         return qs
 
 
@@ -187,7 +187,7 @@ class CashdeskAdmin(DjangoObjectActions, CompareVersionAdmin):
         if request.user.employee.club_fk is None:
             return qs
 
-        return qs.filter(club_fk = request.user.employee.club_fk).filter(status__in = ('OPENED','JUSTCLOSED',))
+        return qs.filter(club_fk__in = request.user.employee.club_m2m).filter(status__in = ('OPENED','JUSTCLOSED',))
 
     def cashdeskclose(self, request, obj):
 

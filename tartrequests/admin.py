@@ -206,9 +206,12 @@ class TortaRequestAdmin(ModelAdmin):
             form.base_fields['club_fk'].disabled = True
 
         # if club is specified for the current user (in the user model), do not allow choosing another club
-        if request.user.employee.club_fk:
-            form.base_fields['club_fk'].initial = request.user.employee.club_fk
-            form.base_fields['club_fk'].widget.attrs.update({'readonly':'True','style':'pointer-events:none'})  # simulates readonly on the browser with the help of css
+        if request.user.employee.club_m2m:
+            if request.user.employee.club_m2m.all().count() == 1:
+                form.base_fields['club_fk'].initial = request.user.employee.club_m2m.all()[0]
+                form.base_fields['club_fk'].widget.attrs.update({'readonly':'True','style':'pointer-events:none'})  # simulates readonly on the browser with the help of css
+            else:
+                form.base_fields['club_fk'].queryset = request.user.employee.club_m2m
             #form.base_fields['club_fk'].disabled = True  - does not work well on add new operation's on save
 
             form.base_fields['status'].disabled = True
@@ -223,6 +226,12 @@ class TortaRequestAdmin(ModelAdmin):
         obj.last_update_date = datetime.now().replace(microsecond=0)
         obj.save()
 
+    def get_queryset(self, request):
+        qs = super(TortaRequestAdmin, self).get_queryset(request)
+        if request.user.employee.club_m2m:
+            return qs.filter(club_fk__in = request.user.employee.club_m2m)
+
+        return qs
 
 admin.site.register(TortaRequest, TortaRequestAdmin)
 
