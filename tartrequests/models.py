@@ -155,6 +155,8 @@ class TortaPieceCoding(models.Model):
 
     tart_size = models.CharField(db_column='TART_SIZE', max_length=50, verbose_name="Описание")
 
+    club_m2m = models.ManyToManyField('Club', verbose_name="За клуб")
+
     def save(self, force_insert=False, force_update=False, using=None,
              update_fields=None):
         self.tart_size = str(self.levels) + " ет. " + "%02d" % self.torta_cnt + ' парчета'
