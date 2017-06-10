@@ -37,7 +37,7 @@ class Cashdesk_detail_expenseAdmin(admin.ModelAdmin):
     def get_queryset(self, request):
         qs = super(Cashdesk_detail_expenseAdmin, self).get_queryset(request)
         qs = qs.filter(cashdesk__status__in = ('OPENED','JUSTCLOSED',))
-        if request.user.employee.club_m2m:
+        if request.user.employee.club_m2m.exists():
             qs.filter(cashdesk__club_fk__in=request.user.employee.club_m2m)
         return qs
 
@@ -68,7 +68,7 @@ class Cashdesk_detail_transferAdmin(admin.ModelAdmin):
         qs = super(Cashdesk_detail_transferAdmin, self).get_queryset(request)
         qs = qs.filter(cashdesk__status__in = ('OPENED','JUSTCLOSED',))
         qs = qs.filter(transfer_club_fk__isnull=False)
-        if request.user.employee.club_fk:
+        if request.user.employee.club_m2m.exists():
             qs.filter(cashdesk__club_fk__in = request.user.employee.club_m2m)
         return qs
 

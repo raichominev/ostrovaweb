@@ -113,7 +113,7 @@ class stock_receipt_protocolAdmin(DjangoObjectActions, CompareVersionAdmin):
                 form.base_fields['transfer_club_fk'].disabled = True
 
         # if club is specified for the current user (in the user model), do not allow choosing another club
-        if request.user.employee.club_m2m and not obj.closed:
+        if request.user.employee.club_m2m.exists() and not obj.closed:
             if request.user.employee.club_m2m.all().count() == 1:
                 form.base_fields['club_fk'].initial = request.user.employee.club_m2m.all()[0]
                 form.base_fields['club_fk'].widget.attrs.update({'readonly':'True','style':'pointer-events:none'})  # simulates readonly on the browser with the help of css

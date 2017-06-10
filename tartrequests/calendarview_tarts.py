@@ -50,7 +50,7 @@ class Form_Club(forms.Form):
 def calendar_view(request):
     context = RequestContext(request)
     form_club = Form_Club()
-    if request.user.employee.club_m2m:
+    if request.user.employee.club_m2m.exists():
         if request.user.employee.club_m2m.all().count() == 1:
             form_club.fields['club_field'].initial = request.user.employee.club_m2m.all()[0]
             form_club.fields['club_field'].widget.attrs.update({'readonly':'True','style':'pointer-events:none'})  # simulates readonly on the browser with the help of css
