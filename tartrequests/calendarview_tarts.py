@@ -2,7 +2,7 @@ import json
 
 from django import forms
 from django.http import HttpResponse
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, time
 
 from django.shortcuts import render_to_response
 from django.template import RequestContext
@@ -30,8 +30,8 @@ def calendar_tart_data(request):
         inp = {}
 
         inp['title'] = 'Заявка:' + str(tortarequest)
-        inp['start'] = datetime.strftime(tortarequest.dostavka_date,'%Y-%m-%dT%H:%M')
-        inp['end'] = datetime.strftime(tortarequest.dostavka_date + timedelta(hours=1),'%Y-%m-%dT%H:%M')
+        inp['start'] = datetime.strftime(tortarequest.dostavka_date,'%Y-%m-%dT') + time.strftime(tortarequest.dostavka_time ,'%H:%M')
+        inp['end'] = datetime.strftime(tortarequest.dostavka_date,'%Y-%m-%dT') + time.strftime((datetime.combine(datetime.today(), tortarequest.dostavka_time) + timedelta(hours=1)).time(),'%H:%M')
         inp['id'] = tortarequest.id
         inp['url'] = '/admin/tartrequests/tortarequest/'+str(tortarequest.id)+'/change/'
         inp['color'] = '#33ccff'

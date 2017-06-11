@@ -42,16 +42,16 @@
             slotEventOverlap: true,
             allDaySlot : false,
             minTime : "09:00",
-            maxTime : "19:00",
+            maxTime : "22:00",
             locale : 'bg',
             columnFormat: 'dddd',
             contentHeight: 400,
             aspectRatio: 5,
-            slotDuration: '00:20:00' ,
+            slotDuration: '00:40:00' ,
             snapDuration: '02:00:00' ,
-            validRange: {
-                    start: '{% now "Y-m-d" %}'
-            },
+//            validRange: {
+//                    start: '{% now "Y-m-d" %}'
+//            },
             events: {
                 url: '/calendar_tarts_feed',
                data: function() {

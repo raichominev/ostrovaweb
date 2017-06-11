@@ -20,7 +20,7 @@ from tartrequests.models import TortaPictureRegister, TortaPieceCoding, TortaReq
 def get_tart_model(id):
     return TortaPictureRegister.objects.get(id=id)
 
-class TartRequestAjaxChainedView(LoginRequiredMixin, ChainedSelectChoicesView):
+class TartRequestAjaxChainedView(ChainedSelectChoicesView):
     """
     View to handle the ajax request for the field options.
     """

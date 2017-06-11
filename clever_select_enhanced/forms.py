@@ -153,14 +153,14 @@ class ChainedChoicesMixin(object):
 
                     }
 
-                    view, args, kwargs = resolve(field.ajax_url)
+                    view, args, view_kwargs = resolve(field.ajax_url)
                     request = HttpRequest()
                     request.method = 'GET'
                     request.GET.update(params)
                     request.user = get_current_user()
 
-                    kwargs['request'] = request
-                    data = view(*args, **kwargs)
+                    view_kwargs['request'] = request
+                    data = view(*args, **view_kwargs)
 
                     # data = c.get(url, params)
 

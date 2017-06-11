@@ -26,4 +26,4 @@ class ThreadLocalMiddleware(object):
     def process_response(self, request, response):
         if hasattr(_thread_locals, 'request'):
             del _thread_locals.request
-            return response
+        return response

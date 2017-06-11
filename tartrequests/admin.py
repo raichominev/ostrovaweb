@@ -100,7 +100,7 @@ class TortaRequestForm(ChainedChoicesModelForm):
                                      ajax_url=reverse_lazy('torta_request_ajax_chained_models'),
                                      label=u'Пълнеж',
                                      required=True,
-                                     widget_attrs={'style':'width:200px'},
+                                     widget_attrs={'style':'width:240px;'},
                                      model=TortaTasteRegister)
 
     # def clean_code(self):
@@ -122,7 +122,7 @@ class TortaRequestForm(ChainedChoicesModelForm):
         fields = '__all__'
         widgets = {
             'nadpis': Textarea(attrs={'rows':1,'style':'width:340px;height:20px'}),
-            'notes': Textarea(attrs={'rows':2, 'style':'height:50px;width:500px'}),
+            'notes': Textarea(attrs={'rows':2, 'style':'height:50px;min-width:200px;width:450px'}),
             'dostavka_date': DateWidget(options = {
                 'format': 'yyyy-mm-dd',
                 'startDate': (datetime.now()+ timedelta(days=1)).strftime('%Y-%m-%d'),

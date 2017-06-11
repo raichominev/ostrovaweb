@@ -1,6 +1,7 @@
 import json
 
 from django import forms
+from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse
 from datetime import datetime
 
@@ -10,7 +11,7 @@ from django.template import RequestContext
 from nomenclature.models import Club
 from order.models import Order
 
-
+@login_required
 def calendar_order_data(request):
 
     start_parameter = request.GET['start']
@@ -47,6 +48,7 @@ def order_move(request):
 class Form_Club(forms.Form):
     club_field = forms.ModelChoiceField(label='Клуб',queryset=Club.objects.all())
 
+@login_required
 def calendar_view(request):
     context = RequestContext(request)
     form_club = Form_Club()
