@@ -5,6 +5,11 @@ from django.utils import timezone
 from ostrovaweb import settings
 
 
+TART_TYPES = (
+    ('3D','3D'),
+    ('Захарна плака','Захарна плака'),
+    ('Стандартна','Стандартна'),)
+
 class TortaDeliveryAddress(models.Model):
     delivery_address  = models.CharField(db_column='DELIVERY_ADDRESS', max_length=1000, verbose_name="Адрес на доставка")
     group = models.ForeignKey(Group, verbose_name="Група")
@@ -76,11 +81,27 @@ class TortaRequest(models.Model):
         return str(self.code) + ":" + str(self.tart_size) + ':' + str(self.palnej)
 
 
+class TortaPricePerClub(models.Model):
+    club_fk = models.ForeignKey('nomenclature.Club', verbose_name="Клуб")
+    tart_type = models.CharField(max_length=50, blank=True, verbose_name="Тип", choices=TART_TYPES)
+
+    price = models.DecimalField(max_digits = 8, decimal_places=2, verbose_name="Ед.Цена")
+
+    last_update_date = models.DateTimeField(db_column='LAST_UPDATE_DATE', blank=True, null=True, verbose_name="Дата промяна", default=timezone.now)
+
+    class Meta:
+        managed = True
+        db_table = 'tart_prices'
+        verbose_name = u"Цена за торта"
+        verbose_name_plural = u"Цени за торти"
+
+    def __str__(self):
+        return str(self.club_fk) + ':' + str(self.tart_type) + '=' + str(self.price)
+
 class TortaTasteRegister(models.Model):
 
     palnej = models.CharField(max_length=50, blank=True, verbose_name="Пълнеж")
     level = models.IntegerField(blank=False, null=False, verbose_name="Макс. Етаж")
-    price = models.DecimalField(max_digits = 8, decimal_places=2, verbose_name="Ед.Цена")
 
     last_update_date = models.DateTimeField(db_column='LAST_UPDATE_DATE', blank=True, null=True, verbose_name="Дата промяна", default=timezone.now)
 
@@ -124,11 +145,8 @@ class TortaPictureRegister(models.Model):
 
     filename = models.FileField(upload_to=upload_storage, max_length=200,  blank = True, null= True, verbose_name="Изображение")
     code = models.CharField(unique=True,max_length=50, verbose_name="Код")
-    tart_type = models.CharField(max_length=50, blank=True, verbose_name="Тип", choices=(
-        ('3D','3D'),
-        ('Захарна плака','Захарна плака'),
-        ('Стандартна','Стандартна'),)
-                                 )
+    tart_type = models.CharField(max_length=50, blank=True, verbose_name="Тип", choices=TART_TYPES)
+
     category = models.ForeignKey( to='TortaPictureCategory', verbose_name="Категория")
     description = models.TextField(max_length=400, blank=True, verbose_name="Описание")
     last_update_date = models.DateTimeField(db_column='LAST_UPDATE_DATE', blank=True, null=True, verbose_name="Дата промяна",default=timezone.now)
@@ -145,11 +163,7 @@ class TortaPictureRegister(models.Model):
 
 class TortaPieceCoding(models.Model):
 
-    tart_type = models.CharField(max_length=50, verbose_name="Тип", choices=(
-        ('3D','3D'),
-        ('Захарна плака','Захарна плака'),
-        ('Стандартна','Стандартна'),)
-                                 )
+    tart_type = models.CharField(max_length=50, verbose_name="Тип", choices=TART_TYPES)
     torta_cnt = models.IntegerField(db_column='TORTA_CNT',  verbose_name="Брой парчета")
     levels = models.IntegerField(db_column='LEVLES',  verbose_name="Етажи")
 

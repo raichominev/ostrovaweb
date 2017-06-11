@@ -190,8 +190,12 @@ class TortaRequestAdmin(ModelAdmin):
     inlines = [ TortaRequestInline, ]
 
     def full_price(self, obj):
-        if obj and obj.palnej and obj.tart_size:
-            return Decimal(round(obj.palnej.price * obj.tart_size.torta_cnt,2))
+        if obj and obj.club_fk and obj.tart_size and obj.code:
+            priceData = TortaPricePerClub.objects.filter(club_fk = obj.club_fk, tart_type = obj.code.tart_type)
+            if priceData:
+                return Decimal(round(priceData.price * obj.tart_size.torta_cnt,2))
+        return Decimal(0)
+
     full_price.short_description = 'Цена'
 
     def get_form(self, request, obj=None, **kwargs):
@@ -313,14 +317,32 @@ class TortaPictureRegisterAdmin(DjangoObjectActions, ModelAdmin):
 
 admin.site.register(TortaPictureRegister, TortaPictureRegisterAdmin)
 
+class TortaPricePerClubAdmin(ModelAdmin):
+
+    list_filter = (
+        'club_fk', 'tart_type'
+    )
+    list_display    = ('id', 'club_fk','tart_type','price')
+    readonly_fields = ['last_update_date', ]
+    list_editable   = ('club_fk','tart_type','price')
+    ordering        = ['club_fk', 'tart_type']
+    list_per_page = 50
+    # exclude = []
+
+    def save_model(self, request, obj, form, change):
+        obj.last_update_date = datetime.now().replace(microsecond=0)
+        obj.save()
+
+admin.site.register(TortaPricePerClub, TortaPricePerClubAdmin)
+
 class TortaTasteRegisterAdmin(ModelAdmin):
 
     list_filter     = (
         'level','palnej'
     )
-    list_display    = ('id', 'level','palnej','price')
+    list_display    = ('id', 'level','palnej')
     readonly_fields = ['last_update_date', ]
-    list_editable   = ('palnej','level','price')
+    list_editable   = ('palnej','level')
     ordering        = ['level', 'palnej']
     list_per_page = 50
     # exclude = []
