@@ -193,7 +193,7 @@ class TortaRequestAdmin(ModelAdmin):
         if obj and obj.club_fk and obj.tart_size and obj.code:
             priceData = TortaPricePerClub.objects.filter(club_fk = obj.club_fk, tart_type = obj.code.tart_type)
             if priceData:
-                return Decimal(round(priceData.price * obj.tart_size.torta_cnt,2))
+                return Decimal(round(priceData[0].price * obj.tart_size.torta_cnt,2))
         return Decimal(0)
 
     full_price.short_description = 'Цена'
