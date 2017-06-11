@@ -168,7 +168,8 @@ class TortaRequestAdmin(ModelAdmin):
     }
 
     suit_form_includes = (
-        ('admin/tortarequest/show_picture_include.html','top'),
+        #('admin/tartrequests/tortarequest/include_inlines.html','top'),
+        ('admin/tartrequests/tortarequest/show_picture_include.html','top'),
     )
 
     fieldsets = (
@@ -375,6 +376,7 @@ class TortaPictureCategoryAdmin(ModelAdmin):
 
     fields = ('category',)
     list_display = ('category',)
+    search_fields = ('category',)
     list_editable = ('category',)
     ordering = ['category',]
     list_per_page = 50

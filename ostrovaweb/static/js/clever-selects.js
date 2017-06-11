@@ -4,17 +4,25 @@ $(document).ready(function() {
 
     $.fn.loadChildChoices = function(child) {
         var valuefield = child;
+        var parent = $(this);
         var ajax_url = valuefield.attr('ajax_url');
+        var additional_custom_function = valuefield.attr('additional_custom_function');
         var empty_label = valuefield.attr('empty_label') || '--------';
+
+        var field = valuefield.attr('name');
+        var parent_field = $(this).attr('name');
+        var parent_value = $(this).val();
+        var add_rel_field = valuefield.attr('additional_related_field');
+        var add_rel_value = $('#' + valuefield.attr('additional_related_field')).val();
 
         $.get(
             ajax_url,
             {
-                field: valuefield.attr('name'),
-                parent_field: $(this).attr('name'),
-                parent_value: $(this).val(),
-                add_rel_field: valuefield.attr('additional_related_field'),
-                add_rel_value: $('#' + valuefield.attr('additional_related_field')).val()
+                field: field,
+                parent_field: parent_field,
+                parent_value: parent_value,
+                add_rel_field: add_rel_field,
+                add_rel_value: add_rel_value
             },
             function(j) {
                 if (valuefield.getType() == "select") {
@@ -54,6 +62,10 @@ $(document).ready(function() {
                 valuefield.trigger('change');
                 valuefield.trigger("liszt:updated"); // support for chosen versions < 1.0.0
                 valuefield.trigger("chosen:updated"); // support for chosen versions >= 1.0.0
+
+                if(additional_custom_function in $.fn) {
+                    $.fn[additional_custom_function](field, parent_field, parent_value, add_rel_field, add_rel_value, valuefield, parent);
+                }
             },
             "json"
         );

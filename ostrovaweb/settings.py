@@ -262,7 +262,7 @@ STATICFILES_STORAGE = 'whitenoise.django.GzipManifestStaticFilesStorage'
 # MEDIA_URL = '/upload/'
 
 TARTIMAGES_STORAGE = u'tartImages'
-TART_CUSTOM_REQESTS_FOLDER = u'ВЪНШНИ ЗАЯВКИ'
+TART_CUSTOM_REQESTS_FOLDER = u'СОБСТВЕНО ИЗОБРАЖЕНИЕ'
 
 AWS_QUERYSTRING_AUTH = False
 AWS_ACCESS_KEY_ID = os.environ.get('BUCKETEER_AWS_ACCESS_KEY_ID',None)

@@ -1,0 +1,65 @@
+<div >
+    <span><strong>
+           Забележка: За избор на собствено изображение, моля въведете код K0000 за Тората Захарна плака, или D0000 за 3D торта
+           и след това добавете от един до три файла, чрез допълнителните полета, които ще се появят най-отдолу.
+           Само първото изображение ще се покаже на екран. Изображенията могат да са вър формат JPEG или PNG с големина
+           от 400x400 до 4096x4096.
+        </strong>
+        </span>
+</div>
+
+<div style="position:absolute">
+    <input type="text" id="id_tart_type" name="zz_tart_type"
+           style="position:relative;top:45px;right: -320px; width: 80px; z-index:99"
+           ajax_url="/admin/ajax/torta-request-chained/"
+           additional_custom_function="activate_custom_picture_inline"
+           disabled=""/>
+    <input type="text" id="id_tart_category" name="zz_tart_category"
+           ajax_url="/admin/ajax/torta-request-chained/"
+           additional_custom_function="activate_custom_picture_inline"
+           style="position:relative;top:45px;right: -320px; width: 120px; z-index:99"
+           disabled=""/>
+</div>
+
+<div style="position:absolute">
+    <img src="{{ MEDIA_URL }}{{original.actual_picture}}"
+         id = "id_tart_picture_image"
+         name="zz_tart_picture_image"
+         ajax_url="/admin/ajax/torta-request-chained/"
+         additional_custom_function="activate_custom_picture_inline"
+         style="position:relative;top:42px;right: -555px; width: 265px; height: 188px;z-index:99"
+    />
+</div>
+
+<script type="text/javascript">
+        //<![CDATA[
+            $(document).ready(function(){
+                var parent_field = $("#id_code");
+                parent_field.addClass('chained-parent-field');
+
+                var chained_ids = parent_field.attr('chained_ids');
+                if(chained_ids == null) chained_ids = '';
+                else chained_ids = chained_ids + ',';
+
+                parent_field.attr('chained_ids', chained_ids + "id_tart_picture_image,id_tart_type,id_tart_category");
+
+                $.fn.activate_custom_picture_inline = function (field, parent_field, parent_value, add_rel_field, add_rel_value, valuefield, parentfield) {
+                     parent_value = parentfield.children("option").filter(":selected").text();
+                     if( parent_value == "D0000" || parent_value == "d0000" || parent_value == "Д0000" || parent_value == "д0000" ||
+                         parent_value == "K0000" || parent_value == "k0000" || parent_value == "К0000" || parent_value == "к0000" ) {
+
+                         $('#tortarequestpicture_set-group').css('display','inline');
+                     } else {
+                         $('#tortarequestpicture_set-group').css('display','none');
+                     }
+                };
+            });
+
+            //will load after *all* document.ready functions, including the clever_selects initializations, loaded at the end of the page
+            $(window).load(function(){
+                $('#id_code').loadChildChoices($('#id_tart_type'));
+                $('#id_code').loadChildChoices($('#id_tart_category'));
+            });
+
+        //]]>
+</script>
