@@ -142,6 +142,7 @@ SUIT_CONFIG = {
               'tortarequest',
               'tortapictureregister',
               'tortatasteregister',
+              'tortapriceperclub',
               'tortapiececoding',
               'tortapicturecategory',
               'tortadeliveryaddress',
