@@ -151,9 +151,11 @@ class TortaRequestAdmin(ModelAdmin):
     model = TortaRequest
 
     list_display = ('code',related_field('code__tart_type', None, 'Вид'),related_field('code__category', None, 'Описание'),'palnej','tart_size','full_price','status', 'dostavka_date', 'dostavka_time', 'club_fk', 'notes')
-    search_fields = ('tart_name','code__code',)
+    search_fields = ('code__code', 'palnej', 'nadpis', 'notes'),
     list_filter = (
         ('status', admin.ChoicesFieldListFilter),
+        'tart_size',
+        'palnej',
         'reg_date',
         'dostavka_date',
     )
