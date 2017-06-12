@@ -21,21 +21,33 @@ def calendar_tart_data(request):
     club_id = request.GET.get('club_id', None)
 
     if club_id:
-        tortarequests=TortaRequest.objects.filter(dostavka_date__gt=start_date,dostavka_date__lt=end_date,club_fk=club_id)
+        tortarequests=TortaRequest.objects.filter(dostavka_date__gte=start_date,dostavka_date__lte=end_date,club_fk=club_id)
     else:
-        tortarequests=TortaRequest.objects.filter(dostavka_date__gt=start_date,dostavka_date__lt=end_date)
+        tortarequests=TortaRequest.objects.filter(dostavka_date__gte=start_date,dostavka_date__lte=end_date)
 
     json_ins = []
     for tortarequest in tortarequests:
         inp = {}
 
-        inp['title'] = 'Заявка:' + str(tortarequest)
+        inp['title'] = str(tortarequest) + ' ,' + str(tortarequest.club_fk)
         inp['start'] = datetime.strftime(tortarequest.dostavka_date,'%Y-%m-%dT') + time.strftime(tortarequest.dostavka_time ,'%H:%M')
         inp['end'] = datetime.strftime(tortarequest.dostavka_date,'%Y-%m-%dT') + time.strftime((datetime.combine(datetime.today(), tortarequest.dostavka_time) + timedelta(hours=1)).time(),'%H:%M')
         inp['id'] = tortarequest.id
         inp['url'] = '/admin/tartrequests/tortarequest/'+str(tortarequest.id)+'/change/'
-        inp['color'] = '#33ccff'
         inp['textColor'] = 'black'
+
+        if tortarequest.status == 'NEW':
+            inp['color'] = '#33ccff'
+        elif tortarequest.status == 'OPEN':
+            inp['color'] = '#ff4d4d'
+        elif tortarequest.status == 'DELIVERED':
+            inp['color'] = '#ffff80'
+        elif tortarequest.status == 'PAYED':
+            inp['color'] = '#85e085'
+        else:
+            inp['color'] = '#33ccff'
+
+
         json_ins.append(inp)
 
     json_txt = json.dumps(json_ins)

@@ -1,4 +1,4 @@
-{% extends "suit:admin/base_site.html" %}
+{% extends "admin/base_site.html" %}
 
 
 {% load i18n staticfiles %}
@@ -12,6 +12,14 @@
     <script type='text/javascript' src="{% static 'moment/moment.js' %}"></script>
     <script type='text/javascript' src="{% static 'fullcalendar/dist/fullcalendar.js' %}"></script>
 <script type='text/javascript' src="{% static 'fullcalendar/dist/locale/bg.js' %}"></script>
+<style>
+    div.fc-slats table tbody tr {
+       height:40px;
+    }
+</style>
+{% endblock %}
+
+{% block breadcrumbs %}
 {% endblock %}
 
 {% block content %}
@@ -45,9 +53,9 @@
             maxTime : "22:00",
             locale : 'bg',
             columnFormat: 'dddd',
-            contentHeight: 400,
+            contentHeight: 542,
             aspectRatio: 5,
-            slotDuration: '00:40:00' ,
+            slotDuration: '01:00:00' ,
             snapDuration: '02:00:00' ,
 //            validRange: {
 //                    start: '{% now "Y-m-d" %}'
@@ -70,13 +78,14 @@
                 var today= new Date();
                 tomorrow = new Date(today.getFullYear(), today.getMonth(), today.getDate()+1);
 
-                if(date.get('hour') % 2 == 0) {
+                /*if(date.get('hour') % 2 == 0) {
                    date.add(1, 'hours');
-                }
+                }*/
 
                 if(date > tomorrow) {
                     window.open('/admin/tartrequests/tortarequest/add?'+
-                     'dostavka_date='+ date.format('YYYY-MM-DD HH:00') +
+                     'dostavka_date='+ date.format('YYYY-MM-DD') +
+                     '&dostavka_time='+ date.format('HH:00') +
                      '&club_fk=' + $('#id_club_field')[0].value
                     ,"_self");
                 }

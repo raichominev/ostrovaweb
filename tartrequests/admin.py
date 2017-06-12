@@ -375,7 +375,7 @@ admin.site.register(TortaPieceCoding, TortaPieceCodingAdmin)
 class TortaPictureCategoryAdmin(ModelAdmin):
 
     fields = ('category',)
-    list_display = ('category',)
+    list_display = ('id','category',)
     search_fields = ('category',)
     list_editable = ('category',)
     ordering = ['category',]
