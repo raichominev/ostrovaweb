@@ -33,7 +33,7 @@ class TortaRequest(models.Model):
 
     notes = models.TextField(db_column='NOTES', max_length=3000, null=True, blank=True, verbose_name="Забележка")
 
-    dostavka_date = models.DateField(blank=False, null=True, verbose_name="Дата доставка")
+    dostavka_date = models.DateField(blank=False, null=True, verbose_name="Дата доставка", db_index=True)
     dostavka_time = models.TimeField(blank=False, null=True, verbose_name="Час")
     delivery_address  = models.TextField(db_column='DELIVERY_ADDRESS', max_length=1000, blank=True, null=True, verbose_name="Адрес на доставка")
     client_phone = models.CharField(db_column='CLIENT_PHONE', max_length=50, blank=True, verbose_name="Телефон")
@@ -58,7 +58,7 @@ class TortaRequest(models.Model):
     #faktura_date = models.DateTimeField(db_column='FAKTURA_DATE', blank=True, null=True, verbose_name="Дата фактура")
 
     def actual_picture(self):
-        if self.tortarequestpicture_set.all().exists():
+        if self.code.code in ('D0000','K0000') and self.tortarequestpicture_set.all().exists():
             return self.tortarequestpicture_set.first().filename
         else:
             return self.code.filename
