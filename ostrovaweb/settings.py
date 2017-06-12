@@ -32,19 +32,19 @@ ALLOWED_HOSTS = ['192.168.6.132','127.0.0.1','localhost','testserver']
 INSTALLED_APPS = [
 
     # Project applications
-    'tartrequests',
-    'order',
-    'delivery',
-    'cashdesk',
-    'store',
-    'nomenclature',
+    'tartrequests.apps.TartrequestsConfig',
+    'order.apps.OrderConfig',
+    'delivery.apps.DeliveryConfig',
+    'cashdesk.apps.CashdeskConfig',
+    'store.apps.StoreConfig',
+    'nomenclature.apps.NomenclatureConfig',
 
     # not including it as installed, because it only supplies js/css, and those are being modified and inluded in own app static
     # 'datetimewidget',
 
     'suit',
     'django_object_actions',
-
+    # 'rangefilter',
 
     'django.contrib.admin',
     'django.contrib.auth',
@@ -60,19 +60,20 @@ INSTALLED_APPS = [
     # Object history
     'reversion',
     'reversion_compare',
+
     'django_select2',
-    'djangobower',
+    #'djangobower',
     'storages'
 
 ]
 
-BOWER_COMPONENTS_ROOT = BASE_DIR + '/components/'
-BOWER_INSTALLED_APPS = (
-    'jquery',
-    'jquery-ui',
-    'bootstrap',
-    'fullcalendar',
-)
+# BOWER_COMPONENTS_ROOT = BASE_DIR + '/components/'
+# BOWER_INSTALLED_APPS = (
+#     'jquery',
+#     'jquery-ui',
+#     'bootstrap',
+#     'fullcalendar',
+# )
 
 MIDDLEWARE_CLASSES = [
     'django.middleware.security.SecurityMiddleware',
@@ -93,6 +94,10 @@ TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
         'DIRS': [
+            # this daterange cutsom filter plugin was adopted from django-daterange-filter-1.0.0 is setup as an installable app, which automatically handles
+            # template path - as now being part from the app - need to point to its template path explicitly
+            BASE_DIR + '/util/daterange_filter/templates',
+
             PROJECT_ROOT + '/templates',
             'templates'  # needed for debug mode only
         ],
@@ -224,7 +229,7 @@ USE_TZ = False
 STATICFILES_FINDERS = [
     'django.contrib.staticfiles.finders.FileSystemFinder',
     'django.contrib.staticfiles.finders.AppDirectoriesFinder',
-    'djangobower.finders.BowerFinder'
+    #'djangobower.finders.BowerFinder'
     # 'django.contrib.staticfiles.finders.DefaultStorageFinder',
 ]
 

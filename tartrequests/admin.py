@@ -5,10 +5,12 @@ from datetime import datetime, timedelta
 from decimal import Decimal
 
 from adminextensions.list_display import related_field
+from django.contrib.admin import RelatedOnlyFieldListFilter
+from django.contrib.admin import SimpleListFilter
 from django_object_actions import DjangoObjectActions
 from django_select2.forms import ModelSelect2Widget
 
-from datetimewidget.widgets import DateTimeWidget, TimeWidget, DateWidget
+from datetimewidget.widgets import TimeWidget, DateWidget
 from django.contrib import admin
 from django.contrib.admin import ModelAdmin
 from django.core.files.storage import default_storage
@@ -21,6 +23,7 @@ from clever_select_enhanced.form_fields import ChainedModelChoiceField, ChainedC
 from clever_select_enhanced.forms import ChainedChoicesModelForm
 from ostrovaweb.utils import fix_code
 from tartrequests.models import *
+from util.daterange_filter.filter import DateRangeFilter
 
 
 class TortaRequestInline(admin.StackedInline):
@@ -145,19 +148,35 @@ class TortaRequestForm(ChainedChoicesModelForm):
             )
         }
 
+class ListFilterSeparator(SimpleListFilter):
+    template = 'admin/tartrequests/tortarequest/list_filter_separator.html'
+    title = '<br>'
+    parameter_name = 'separator_dummy'
+
+    def has_output(self):
+        return True
+
+    def lookups(self, request, model_admin):
+        return ()
+
+    def queryset(self, request, queryset):
+        return queryset
+
 class TortaRequestAdmin(ModelAdmin):
 
     form = TortaRequestForm
     model = TortaRequest
 
     list_display = ('code',related_field('code__tart_type', None, 'Вид'),related_field('code__category', None, 'Описание'),'palnej','tart_size','full_price','status', 'dostavka_date', 'dostavka_time', 'club_fk', 'notes')
-    search_fields = ('code__code', 'palnej', 'nadpis', 'notes'),
+    search_fields = ('code__code', 'code__category__category', 'palnej__palnej', 'nadpis', 'notes')
     list_filter = (
         ('status', admin.ChoicesFieldListFilter),
-        'tart_size',
+        ('tart_size',RelatedOnlyFieldListFilter),
         'palnej',
-        'reg_date',
-        'dostavka_date',
+        ('club_fk',RelatedOnlyFieldListFilter),
+        ListFilterSeparator,
+        ('reg_date', DateRangeFilter),
+        ('dostavka_date', DateRangeFilter),
     )
     ordering = ['-id']
     list_per_page = 50
