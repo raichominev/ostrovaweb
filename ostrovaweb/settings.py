@@ -15,6 +15,8 @@ import os
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 import logging
 
+from django.utils import timezone
+
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 PROJECT_ROOT = os.path.dirname(os.path.abspath(__file__))
 
@@ -219,10 +221,10 @@ DATABASES = {
 
 # Internationalization
 LANGUAGE_CODE = 'bg'
-TIME_ZONE = 'UTC'
+TIME_ZONE = timezone.now()
 USE_I18N = True
 USE_L10N = True
-USE_TZ = True
+USE_TZ = False
 
 # Static Files
 
