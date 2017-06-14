@@ -1,26 +1,21 @@
-import os
-
 from datetime import datetime, timedelta
-
 from decimal import Decimal
 
 from adminextensions.list_display import related_field
+from django import forms
+from django.contrib import admin
+from django.contrib.admin import ModelAdmin
 from django.contrib.admin import RelatedOnlyFieldListFilter
 from django.contrib.admin import SimpleListFilter
+from django.core.files.storage import default_storage
+from django.core.urlresolvers import reverse_lazy
+from django.forms import Textarea
 from django_object_actions import DjangoObjectActions
 from django_select2.forms import ModelSelect2Widget
 
-from datetimewidget.widgets import TimeWidget, DateWidget
-from django.contrib import admin
-from django.contrib.admin import ModelAdmin
-from django.core.files.storage import default_storage
-from django.core.urlresolvers import reverse_lazy
-from django import forms
-from django.forms import ModelForm, TextInput, Textarea
-
-from clever_select_enhanced.clever_txt_field import ChainedTextInputField
-from clever_select_enhanced.form_fields import ChainedModelChoiceField, ChainedChoiceField
+from clever_select_enhanced.form_fields import ChainedModelChoiceField
 from clever_select_enhanced.forms import ChainedChoicesModelForm
+from datetimewidget.widgets import TimeWidget, DateWidget
 from ostrovaweb.utils import fix_code
 from tartrequests.models import *
 from util.daterange_filter.filter import DateRangeFilter
@@ -144,7 +139,7 @@ class TortaRequestForm(ChainedChoicesModelForm):
             'code' : CodeFixingModelSelect2Widget(
                  model=TortaPictureRegister,
                  search_fields=['code__icontains','category__category__icontains', 'description__icontains'],
-                 attrs={'style':'width:80px'},
+                 attrs={'style':'width:80px', 'maximum-selection-length': '1', "multiple":"multiple"},
             )
         }
 
