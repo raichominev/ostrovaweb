@@ -32,5 +32,5 @@ psycopg2
 gunicorn==19.6.0
 whitenoise==2.0.6
 
-python-binary-memcached
-django-bmemcached
+python-binary-memcached==0.26.0
+django-bmemcached==0.2.3

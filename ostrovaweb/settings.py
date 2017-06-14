@@ -284,6 +284,7 @@ CACHES = {
     'select2': {
         'BACKEND': 'django_bmemcached.memcached.BMemcached',
         'LOCATION': os.environ.get('MEMCACHEDCLOUD_SERVERS').split(','),
+        'TIMEOUT': 60 * 60,
         'OPTIONS': {
             'username': os.environ.get('MEMCACHEDCLOUD_USERNAME'),
             'password': os.environ.get('MEMCACHEDCLOUD_PASSWORD')
