@@ -31,3 +31,6 @@ dj-database-url
 psycopg2
 gunicorn==19.6.0
 whitenoise==2.0.6
+
+python-binary-memcached
+django-bmemcached
