@@ -12,6 +12,12 @@ $(document).ready(function() {
         var field = valuefield.attr('name');
         var parent_field = $(this).attr('name');
         var parent_value = $(this).val();
+
+        //this is when using select2 multiple widget for a single value
+        if (Object.prototype.toString.call( parent_value ) === '[object Array]' ) {
+           parent_value = parent_value[0];
+        }
+
         var add_rel_field = valuefield.attr('additional_related_field');
         var add_rel_value = $('#' + valuefield.attr('additional_related_field')).val();
 
