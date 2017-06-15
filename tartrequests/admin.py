@@ -220,11 +220,11 @@ class TortaRequestAdmin(ModelAdmin):
         form = super(TortaRequestAdmin, self).get_form(request, obj,**kwargs)
 
         # if edditing (obj will be filled in with the exeistin model)
-        if obj:
+        #if obj:
             # alternatives for readonly:
             # form.base_fields['supplier_fk'].widget.attrs.update({'readonly':'True','style':'pointer-events:none'})
             # form.base_fields['club_fk'].widget = django.forms.widgets.Select(attrs={'readonly':'True','onfocus':"this.defaultIndex=this.selectedIndex;", 'onchange':"this.selectedIndex=this.defaultIndex;"})
-            form.base_fields['club_fk'].disabled = True
+        #    form.base_fields['club_fk'].disabled = True
 
         # if club is specified for the current user (in the user model), do not allow choosing another club
         if request.user.employee.club_m2m.exists():
