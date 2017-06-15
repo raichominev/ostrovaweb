@@ -22,9 +22,11 @@
 </head>
 {% load i18n %}
 
-{#The base.html is taken into project only for the data-admin-utc-offset, wich is necessary for DateTimeShortcuts.js
+{#
+  The base.html is taken into project only for the data-admin-utc-offset, wich is necessary for DateTimeShortcuts.js
   not to show - "you are ahead of server time", which relies on the parameter to compute...
-  Otherwise file should be identical to suit verstion. #}
+  Otherwise file should be identical to suit verstion.
+#}
 <body class="{% if is_popup %}popup {% endif %}{% block bodyclass %}{% endblock %}"
       data-admin-utc-offset="{% now "Z" %}">
 
