@@ -26,7 +26,7 @@ SECRET_KEY = 'ex7(i1v1)pq!rz(m#a-1z0dlk%d(m0rt01gs^5d1gp9dsk+f0a'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['192.168.6.132','127.0.0.1','localhost','testserver']
+ALLOWED_HOSTS = ['192.168.6.132','127.0.0.1','localhost','testserver','shamoni.herokuapp.com']
 
 INSTALLED_APPS = [
 
